@@ -1,0 +1,219 @@
+# Pages CMS – administrace webu M&L komaxit (https://app.pagescms.org)
+# Klient upravuje jen obsah v src/_data a fotky v src/img/uploads.
+
+media:
+  input: src/img/uploads
+  output: /img/uploads
+  categories: [image]
+  rename: safe
+
+content:
+  - name: uvod
+    label: Úvod
+    type: file
+    path: src/_data/uvod.json
+    format: json
+    fields:
+      - name: headline
+        label: Hlavní nadpis
+        type: string
+        required: true
+      - name: lead
+        label: Text pod nadpisem
+        type: text
+      - name: pickup
+        label: Věta o svozu zakázek
+        type: string
+        description: Když necháte prázdné, řádek se nezobrazí.
+      - name: before
+        label: Fotka PŘED
+        type: image
+        description: Stejný díl jako na fotce PO, ideálně ze stejného úhlu. Ideálně čtvercová.
+      - name: beforeAlt
+        label: Popis fotky PŘED (pro nevidomé a Google)
+        type: string
+      - name: after
+        label: Fotka PO
+        type: image
+      - name: afterAlt
+        label: Popis fotky PO (pro nevidomé a Google)
+        type: string
+      - name: caption
+        label: Popisek pod srovnáním
+        type: string
+
+  - name: sluzby
+    label: Služby
+    type: file
+    path: src/_data/sluzby.json
+    format: json
+    fields:
+      - name: heading
+        label: Nadpis sekce
+        type: string
+      - name: intro
+        label: Úvodní text
+        type: text
+      - name: items
+        label: Služby
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: title
+            label: Název služby
+            type: string
+            required: true
+          - name: text
+            label: Krátký popis
+            type: text
+          - name: icon
+            label: Ikona
+            type: select
+            options:
+              values:
+                - name: lakovani
+                  label: Stříkací pistole
+                - name: odlakovani
+                  label: Baňka (chemie)
+                - name: tryskani
+                  label: Tryskání
+                - name: renovace
+                  label: Kolo
+                - name: svarovani
+                  label: Klíč (opravy)
+                - name: svoz
+                  label: Auto (svoz)
+      - name: fitsHeading
+        label: Nadpis rámečku „Co u nás nalakujete“
+        type: string
+      - name: fits
+        label: Co u nás nalakujete
+        type: string
+        list: true
+      - name: fitsNote
+        label: Poznámka pod seznamem
+        type: string
+
+  - name: realizace
+    label: Realizace (galerie)
+    type: file
+    path: src/_data/realizace.json
+    format: json
+    fields:
+      - name: intro
+        label: Úvodní věta
+        type: string
+        description: Za ni se automaticky doplní odkazy na Facebook a Instagram.
+      - name: items
+        label: Fotky realizací
+        description: Pořadí změníte přetažením. Nahoře = první v galerii.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: image
+            label: Fotka
+            type: image
+            required: true
+          - name: title
+            label: Nadpis
+            type: string
+            required: true
+          - name: text
+            label: Krátký popis
+            type: string
+          - name: alt
+            label: Co je na fotce (pro nevidomé a Google)
+            type: string
+
+  - name: postup
+    label: Jak to probíhá
+    type: file
+    path: src/_data/postup.json
+    format: json
+    fields:
+      - name: intro
+        label: Úvodní věta
+        type: string
+      - name: steps
+        label: Kroky
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {title}"
+        fields:
+          - name: title
+            label: Název kroku
+            type: string
+            required: true
+          - name: text
+            label: Popis
+            type: text
+
+  - name: procmy
+    label: Proč my
+    type: file
+    path: src/_data/procmy.json
+    format: json
+    fields:
+      - name: motto
+        label: Velký nadpis
+        type: string
+      - name: text
+        label: Text pod nadpisem
+        type: text
+      - name: points
+        label: Body se zaškrtnutím
+        type: string
+        list: true
+
+  - name: site
+    label: Kontakt a firma
+    type: file
+    path: src/_data/site.json
+    format: json
+    fields:
+      - name: name
+        label: Název firmy
+        type: string
+      - name: phone
+        label: Telefon
+        type: string
+        description: Ve tvaru +420 799 040 499
+      - name: email
+        label: E-mail
+        type: string
+      - name: street
+        label: Ulice a číslo
+        type: string
+      - name: city
+        label: PSČ a obec
+        type: string
+      - name: hours
+        label: Provozní doba
+        type: string
+        description: Když necháte prázdné, řádek se nezobrazí.
+      - name: ico
+        label: IČO
+        type: string
+      - name: contactText
+        label: Text v sekci Kontakt
+        type: text
+      - name: facebook
+        label: Odkaz na Facebook
+        type: string
+      - name: instagram
+        label: Instagram (jen jméno účtu bez @)
+        type: string
+      - name: title
+        label: Titulek stránky (Google, záložka prohlížeče)
+        type: string
+      - name: description
+        label: Popis stránky pro Google
+        type: text

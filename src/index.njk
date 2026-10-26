@@ -1,0 +1,274 @@
+---
+permalink: /index.html
+---
+{%- from "icons.njk" import icon -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+{%- set fbUrl = site.facebook -%}
+{%- set igUrl = "https://www.instagram.com/" + site.instagram + "/" -%}
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <meta property="og:title" content="{{ site.title }}">
+  <meta property="og:description" content="{{ uvod.headline }}. {{ site.description }}">
+  <meta property="og:image" content="/img/logo.jpg">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,100..900;1,50..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": {{ site.name | dump | safe }},
+    "description": {{ site.description | dump | safe }},
+    "telephone": {{ tel | dump | safe }},
+    "email": {{ site.email | dump | safe }},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ site.street | dump | safe }},
+      "addressLocality": {{ site.city | dump | safe }},
+      "addressCountry": "CZ"
+    },
+    "sameAs": [{{ fbUrl | dump | safe }}, {{ igUrl | dump | safe }}]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-label="{{ site.name }} – úvod">
+      <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="640" height="412">
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <nav id="menu" class="nav" aria-label="Hlavní">
+      <a href="#sluzby">Služby</a>
+      <a href="#realizace">Realizace</a>
+      <a href="#postup">Jak to probíhá</a>
+      <a href="#kontakt">Kontakt</a>
+      <a class="btn btn-pink btn-sm" href="tel:{{ tel }}">{{ phoneShort }}</a>
+    </nav>
+  </div>
+</header>
+
+<main id="obsah">
+
+  <!-- ÚVOD -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="display steel">{{ uvod.headline | cz }}</h1>
+        <p class="lead">{{ uvod.lead | cz }}</p>
+        <div class="actions">
+          <a class="btn btn-pink" href="tel:{{ tel }}">Zavolat {{ phoneShort }}</a>
+          <a class="btn btn-steel" href="#kontakt">Poslat fotky k nacenění</a>
+        </div>
+        {%- if uvod.pickup %}
+        <p class="pickup">
+          {{ icon("svoz") }}
+          {{ uvod.pickup | cz }}
+        </p>
+        {%- endif %}
+      </div>
+
+      <figure class="compare-wrap">
+        <div class="compare" style="--pos: 50%">
+          <img class="compare-after" src="{{ uvod.after }}" alt="{{ uvod.afterAlt }}" sizes="(max-width: 860px) 92vw, 45vw" loading="eager" fetchpriority="high">
+          <img class="compare-before" src="{{ uvod.before }}" alt="{{ uvod.beforeAlt }}" sizes="(max-width: 860px) 92vw, 45vw" loading="eager">
+          <span class="compare-tag compare-tag-before" aria-hidden="true">Před</span>
+          <span class="compare-tag compare-tag-after" aria-hidden="true">Po</span>
+          <span class="compare-handle" aria-hidden="true"></span>
+          <label class="sr-only" for="compare-range">Posunout srovnání před a po</label>
+          <input id="compare-range" class="compare-range" type="range" min="0" max="100" value="50">
+        </div>
+        {%- if uvod.caption %}
+        <figcaption>{{ uvod.caption | cz }}</figcaption>
+        {%- endif %}
+      </figure>
+    </div>
+  </section>
+
+  <!-- SLUŽBY -->
+  <section id="sluzby" class="section">
+    <div class="wrap services-grid">
+      <div class="services-intro">
+        <h2 class="display steel">{{ sluzby.heading | cz }}</h2>
+        <p>{{ sluzby.intro | cz }}</p>
+
+        <div class="fits">
+          <h3>{{ sluzby.fitsHeading }}</h3>
+          <ul>
+            {%- for item in sluzby.fits %}
+            <li>{{ item | cz }}</li>
+            {%- endfor %}
+          </ul>
+          {%- if sluzby.fitsNote %}
+          <p class="fits-note">{{ sluzby.fitsNote | cz }}</p>
+          {%- endif %}
+        </div>
+      </div>
+
+      <ul class="services">
+        {%- for item in sluzby.items %}
+        <li>
+          {{ icon(item.icon) }}
+          <div>
+            <h3>{{ item.title | cz }}</h3>
+            <p>{{ item.text | cz }}</p>
+          </div>
+        </li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <!-- REALIZACE -->
+  <section id="realizace" class="section section-panel">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display steel">Realizace</h2>
+        <p>{{ realizace.intro | cz }} Další zakázky průběžně přidáváme na <a href="{{ fbUrl }}" target="_blank" rel="noopener">Facebook</a> a&nbsp;<a href="{{ igUrl }}" target="_blank" rel="noopener">Instagram</a>.</p>
+      </div>
+
+      <div class="gallery">
+        {%- for item in realizace.items %}
+        <figure class="g-item">
+          <button class="g-open" type="button"><img src="{{ item.image }}" alt="{{ item.alt or item.title }}" sizes="(max-width: 560px) 92vw, (max-width: 1000px) 46vw, 380px"></button>
+          <figcaption><strong>{{ item.title | cz }}</strong> {{ item.text | cz }}</figcaption>
+        </figure>
+        {%- endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- POSTUP -->
+  <section id="postup" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display steel">Jak to probíhá</h2>
+        <p>{{ postup.intro | cz }}</p>
+      </div>
+      <ol class="steps">
+        {%- for step in postup.steps %}
+        <li>
+          <h3>{{ step.title | cz }}</h3>
+          <p>{{ step.text | cz }}</p>
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROČ MY -->
+  <section class="section section-panel why">
+    <div class="wrap why-grid">
+      <div>
+        <p class="motto display steel">{{ procmy.motto | cz }}</p>
+        <p class="why-text">{{ procmy.text | cz }}</p>
+      </div>
+      <ul class="checks">
+        {%- for point in procmy.points %}
+        <li>{{ point | cz }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" class="section">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <h2 class="display steel">Kontakt</h2>
+        <p>{{ site.contactText | cz }}</p>
+
+        <a class="phone" href="tel:{{ tel }}">{{ site.phone }}</a>
+
+        <dl class="contact-list">
+          <dt>E-mail</dt>
+          <dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd>
+          <dt>Adresa</dt>
+          <dd>{{ site.street }}<br>{{ site.city }}</dd>
+          {%- if site.hours %}
+          <dt>Provozní doba</dt>
+          <dd>{{ site.hours }}</dd>
+          {%- endif %}
+          <dt>Sledujte nás</dt>
+          <dd>
+            <a href="{{ fbUrl }}" target="_blank" rel="noopener">Facebook</a>,
+            <a href="{{ igUrl }}" target="_blank" rel="noopener">Instagram @{{ site.instagram }}</a>
+          </dd>
+        </dl>
+
+        <div class="map">
+          <iframe title="Mapa – {{ site.street }}" src="https://maps.google.com/maps?q={{ (site.street + ', ' + site.city) | urlencode }}&z=13&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
+      <form class="form" name="poptavka" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+        <input type="hidden" name="form-name" value="poptavka">
+        <p class="hp"><label>Nevyplňujte <input name="bot-field"></label></p>
+
+        <h3>Poptávka</h3>
+        <p class="form-hint">Popište, co potřebujete nalakovat, a&nbsp;přiložte fotky. Ozveme se s&nbsp;cenou.</p>
+
+        <div class="field">
+          <label for="f-name">Jméno</label>
+          <input id="f-name" name="jmeno" autocomplete="name" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-phone">Telefon</label>
+            <input id="f-phone" name="telefon" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-msg">Co potřebujete nalakovat</label>
+          <textarea id="f-msg" name="zprava" rows="5" placeholder="Např. 4 alu kola 17&quot;, černý lesk, potřebuji i svoz"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-files">Fotky dílů</label>
+          <input id="f-files" name="fotky" type="file" accept="image/*" multiple>
+        </div>
+        <button class="btn btn-pink" type="submit">Odeslat poptávku</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <img eleventy:ignore src="/img/logo.jpg" alt="" width="160" height="103" loading="lazy">
+    <p>{{ site.name }} – prášková lakovna<br>{{ site.street }}, {{ site.city }}{% if site.ico %}<br>IČO: {{ site.ico }}{% endif %}</p>
+    <p class="footer-small">© {% year %} {{ site.name }}</p>
+  </div>
+</footer>
+
+<a class="call-bar" href="tel:{{ tel }}">Zavolat {{ phoneShort }}</a>
+
+<dialog class="lightbox" aria-label="Fotka realizace">
+  <img eleventy:ignore src="data:," alt="">
+  <p class="lightbox-caption"></p>
+  <button class="lightbox-close" type="button" aria-label="Zavřít">×</button>
+</dialog>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

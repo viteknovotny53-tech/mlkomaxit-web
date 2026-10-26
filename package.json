@@ -1,0 +1,13 @@
+{
+  "name": "mlkomaxit-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve --port=5179",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.7",
+    "@11ty/eleventy-img": "7.1.1"
+  }
+}

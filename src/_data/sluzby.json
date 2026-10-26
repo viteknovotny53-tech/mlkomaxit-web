@@ -1,0 +1,39 @@
+{
+  "heading": "Kompletní péče o díly na jednom místě",
+  "intro": "Díl od vás převezmeme v jakémkoli stavu. Starý nátěr odstraníme, povrch očistíme, opravíme, co je potřeba, a nalakujeme.",
+  "items": [
+    {
+      "title": "Práškové lakování kovových dílů",
+      "text": "Odolný povrch, který vydrží roky. Klasické odstíny, metalízy i efektové barvy jako chameleon.",
+      "icon": "lakovani"
+    },
+    {
+      "title": "Chemické odlakování starých nátěrů",
+      "text": "Starou barvu odstraníme až na původní povrch, aniž bychom díl poškodili.",
+      "icon": "odlakovani"
+    },
+    {
+      "title": "Pískování a tryskání povrchů",
+      "text": "Očistíme rez a nečistoty a povrch připravíme tak, aby nový lak dobře držel.",
+      "icon": "tryskani"
+    },
+    {
+      "title": "Renovace a opravy kovových dílů",
+      "text": "Rovnání a broušení i u dílů, které už vypadají na šrot.",
+      "icon": "renovace"
+    },
+    {
+      "title": "Svařování a opravy poškozených dílů",
+      "text": "Prasklé nebo poškozené díly opravíme ještě před lakováním.",
+      "icon": "svarovani"
+    }
+  ],
+  "fitsHeading": "Co u nás nalakujete",
+  "fits": [
+    "Alu i plechová kola, i s leštěným límcem",
+    "Díly aut a motorek",
+    "Konstrukce, zábradlí, brány",
+    "Nábytek a dekorace z kovu"
+  ],
+  "fitsNote": "Kusové i větší zakázky, díly do délky 2,5 m."
+}

@@ -1,0 +1,660 @@
+/* M&L komaxit – první návrh */
+
+:root {
+  --black: #000;
+  --panel: #111216;
+  --line: #26282e;
+  --pink: #e8338a;
+  --pink-hi: #f45ea3;
+  --cyan: #22b8d8;
+  --steel-hi: #e4e7eb;
+  --steel-lo: #8a929c;
+  --text: #eef0f2;
+  --muted: #a2a7b0;
+
+  --steel-grad: linear-gradient(176deg, #fff 0%, #dfe3e7 38%, #8a929c 52%, #c9ced4 64%, #f2f4f6 100%);
+  --wrap: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section: clamp(72px, 10vw, 136px);
+  --slant: 7%;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--text);
+  font-family: "Saira", system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--cyan); text-underline-offset: 3px; }
+a:hover { color: #6fd6ec; }
+
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.skip {
+  position: absolute; left: 16px; top: -60px; z-index: 100;
+  background: var(--pink); color: #fff; padding: 10px 16px;
+}
+.skip:focus { top: 12px; }
+
+/* Typografie */
+
+.display {
+  font-stretch: 68%;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: .92;
+  letter-spacing: .005em;
+}
+
+.steel {
+  background: var(--steel-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h2.display { font-size: clamp(2.5rem, 5.4vw, 4.25rem); }
+
+h3 {
+  font-stretch: 85%;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+/* Tlačítka – šikmá plocha jako panely na letáku */
+
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 12px 28px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-stretch: 85%;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: skewX(-12deg);
+  transition: background-color .15s, border-color .15s;
+}
+.btn:hover { color: #fff; }
+.btn:focus-visible { outline: none; }
+.btn:focus-visible::before { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.btn-pink::before { background: var(--pink); }
+.btn-pink:hover::before { background: var(--pink-hi); }
+
+.btn-steel::before { border: 1.5px solid var(--steel-lo); }
+.btn-steel:hover::before { border-color: var(--steel-hi); background: rgba(255,255,255,.04); }
+
+.btn-sm { min-height: 42px; padding: 8px 20px; font-size: 1rem; }
+
+.ico {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Hlavička */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(0,0,0,.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 80px;
+}
+.brand img { height: 62px; width: auto; }
+
+.nav { display: flex; align-items: center; gap: 30px; }
+.nav a:not(.btn) {
+  color: var(--text);
+  text-decoration: none;
+  font-stretch: 85%;
+  font-weight: 600;
+}
+.nav a:not(.btn):hover { color: var(--pink-hi); }
+
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  border: 0; background: none; color: var(--text);
+  cursor: pointer;
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 24px; height: 2px;
+  margin-inline: auto;
+  background: currentColor;
+  transition: transform .2s;
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before,
+.nav-toggle-bars::after { content: ""; position: absolute; left: 0; }
+.nav-toggle-bars::before { top: -7px; }
+.nav-toggle-bars::after { top: 7px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Úvod */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(48px, 7vw, 96px) var(--section);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.hero h1 { font-size: clamp(3.25rem, 8.2vw, 7.25rem); }
+.lead {
+  max-width: 34em;
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 1.1875rem;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 14px 22px; margin-top: 36px; }
+.pickup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 34em;
+  margin-top: 32px;
+  color: var(--text);
+  font-size: 1rem;
+}
+.pickup .ico { color: var(--cyan); }
+
+/* Před / po */
+
+.compare-wrap { position: relative; margin: 0; }
+.compare-wrap::before {
+  /* oblak prášku z úvodní fotky FB za srovnáním */
+  content: "";
+  position: absolute;
+  inset: -18% -22% -10% -12%;
+  z-index: -1;
+  background: url("../img/prasek.jpg") center / cover;
+  filter: blur(36px) saturate(1.3);
+  opacity: .5;
+  pointer-events: none;
+}
+.compare {
+  --pos: 50%;
+  position: relative;
+  aspect-ratio: 654 / 640;
+  overflow: hidden;
+  clip-path: polygon(var(--slant) 0, 100% 0, 100% 100%, 0 100%);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: ew-resize;
+}
+.compare img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.compare-handle {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--pos);
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--pink);
+  pointer-events: none;
+}
+.compare-handle::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%) skewX(-12deg);
+  background: var(--pink) no-repeat center / 26px
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-6 6 6 6M15 6l6 6-6 6'/%3E%3C/svg%3E");
+}
+.compare-tag {
+  position: absolute;
+  bottom: 16px;
+  padding: 2px 12px;
+  background: rgba(0,0,0,.72);
+  font-stretch: 85%;
+  font-weight: 700;
+  pointer-events: none;
+}
+.compare-tag-before { left: calc(var(--slant) + 12px); }
+.compare-tag-after { right: 16px; }
+.compare-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+.compare:has(.compare-range:focus-visible) .compare-handle::after {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+.compare-wrap figcaption {
+  margin-top: 16px;
+  padding-left: calc(var(--slant) * .6);
+  color: var(--muted);
+  font-size: .9375rem;
+}
+
+/* Sekce */
+
+.section { padding-block: var(--section); }
+.section-panel { background: var(--panel); }
+
+.section-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 30em);
+  gap: 16px 48px;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.section-head p { color: var(--muted); }
+
+/* Služby */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.services-intro > p { margin-top: 24px; max-width: 30em; color: var(--muted); }
+
+.fits {
+  margin-top: 48px;
+  padding: 28px 28px 26px;
+  border-left: 3px solid var(--cyan);
+  background: var(--panel);
+}
+.fits ul { margin: 14px 0 0; padding: 0; list-style: none; }
+.fits li { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.fits li:last-child { border-bottom: 0; }
+.fits-note { margin-top: 14px; color: var(--cyan); font-weight: 600; }
+
+.services { margin: 0; padding: 0; list-style: none; }
+.services li {
+  display: flex;
+  gap: 22px;
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+}
+.services li:last-child { border-bottom: 1px solid var(--line); }
+.services .ico { width: 34px; height: 34px; margin-top: 2px; color: var(--cyan); }
+.services p { margin-top: 6px; color: var(--muted); max-width: 36em; }
+
+/* Realizace */
+
+/* sloupcová galerie – nové fotky od klienta se samy zařadí, bez děr v mřížce */
+.gallery {
+  columns: 3;
+  column-gap: 14px;
+}
+.g-item {
+  position: relative;
+  margin: 0 0 14px;
+  break-inside: avoid;
+  overflow: hidden;
+  background: #000;
+}
+.g-open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.g-open img { width: 100%; }
+.g-item figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 40px 16px 14px;
+  background: linear-gradient(transparent, rgba(0,0,0,.85));
+  color: var(--muted);
+  font-size: .9375rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+.g-item figcaption strong {
+  display: block;
+  color: var(--text);
+  font-stretch: 85%;
+  font-size: 1.0625rem;
+}
+
+/* Postup */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.steps li {
+  position: relative;
+  padding-top: 76px;
+  counter-increment: step;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: 0; left: 0;
+  font-stretch: 68%;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 3.75rem;
+  line-height: 1;
+  background: var(--steel-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.steps li::after {
+  /* spojnice mezi kroky */
+  content: "";
+  position: absolute;
+  top: 30px; left: 56px; right: -14px;
+  height: 1px;
+  background: var(--line);
+}
+.steps li:last-child::after { display: none; }
+.steps p { margin-top: 8px; color: var(--muted); }
+
+/* Proč my */
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+.motto { font-size: clamp(2.75rem, 6vw, 5rem); }
+.why-text { margin-top: 24px; max-width: 30em; color: var(--muted); }
+
+.checks { margin: 0; padding: 0; list-style: none; }
+.checks li {
+  position: relative;
+  padding: 16px 0 16px 40px;
+  border-bottom: 1px solid var(--line);
+  font-size: 1.125rem;
+}
+.checks li:first-child { border-top: 1px solid var(--line); }
+.checks li::before {
+  content: "";
+  position: absolute;
+  left: 4px; top: 50%;
+  width: 18px; height: 9px;
+  margin-top: -7px;
+  border-left: 2.5px solid var(--pink);
+  border-bottom: 2.5px solid var(--pink);
+  transform: rotate(-45deg);
+}
+
+/* Kontakt */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.contact-info > p { margin-top: 24px; max-width: 30em; color: var(--muted); }
+
+.phone {
+  display: inline-block;
+  margin-top: 28px;
+  color: var(--pink-hi);
+  font-stretch: 75%;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(2.25rem, 4.6vw, 3.25rem);
+  line-height: 1;
+  text-decoration: none;
+}
+.phone:hover { color: #ff86bd; }
+
+.contact-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 28px;
+  margin: 32px 0 0;
+}
+.contact-list dt { color: var(--muted); }
+.contact-list dd { margin: 0; }
+
+.map {
+  margin-top: 36px;
+  aspect-ratio: 16 / 10;
+  background: var(--panel);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+.map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: grayscale(1) invert(.9) contrast(.9);
+}
+
+.form {
+  padding: clamp(24px, 4vw, 44px);
+  background: var(--panel);
+  border-top: 3px solid var(--pink);
+}
+.form-hint { margin: 8px 0 24px; color: var(--muted); }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.field label { font-weight: 600; font-size: .9375rem; }
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #3a3d45;
+  border-radius: 0;
+  background: #000;
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+}
+.field input:focus,
+.field textarea:focus { border-color: var(--cyan); outline: none; box-shadow: 0 0 0 1px var(--cyan); }
+.field textarea { resize: vertical; }
+.field input[type="file"] { padding: 10px; color: var(--muted); }
+.field input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 6px 14px;
+  border: 1px solid var(--steel-lo);
+  background: none;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.form .btn { margin-top: 8px; }
+.hp { position: absolute; left: -9999px; }
+
+/* Patička */
+
+.site-footer {
+  padding-block: 48px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .9375rem;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 40px;
+}
+.footer-inner img { width: 120px; }
+.footer-small { margin-left: auto; }
+
+/* Lightbox */
+
+.lightbox {
+  max-width: min(1100px, 94vw);
+  max-height: 92vh;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: var(--text);
+}
+.lightbox::backdrop { background: rgba(0,0,0,.88); }
+.lightbox[open] { animation: lb-in .18s ease-out; }
+.lightbox img { max-height: calc(92vh - 64px); width: auto; margin-inline: auto; }
+.lightbox-caption { padding: 14px 64px 16px 16px; color: var(--muted); }
+.lightbox-caption strong { color: var(--text); }
+.lightbox-close {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 44px; height: 44px;
+  border: 0;
+  background: rgba(0,0,0,.7);
+  color: #fff;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+@keyframes lb-in { from { opacity: 0; transform: scale(.98); } }
+
+/* Mobilní lišta s telefonem */
+
+.call-bar { display: none; }
+
+/* Responzivita */
+
+@media (max-width: 1000px) {
+  .steps { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+  .steps li::after { display: none; }
+  .gallery { columns: 2; }
+}
+
+@media (max-width: 860px) {
+  .nav-toggle { display: block; }
+  .nav {
+    position: absolute;
+    top: 80px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px var(--gutter) 24px;
+    background: #000;
+    border-bottom: 1px solid var(--line);
+    display: none;
+  }
+  .nav.is-open { display: flex; }
+  .nav a:not(.btn) { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .nav .btn { margin-top: 18px; }
+
+  .hero-grid,
+  .services-grid,
+  .why-grid,
+  .contact-grid { grid-template-columns: 1fr; }
+  .section-head { grid-template-columns: 1fr; }
+  .compare-wrap { max-width: 560px; }
+
+  .call-bar {
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    background: var(--pink);
+    color: #fff;
+    font-stretch: 85%;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 6px 24px rgba(0,0,0,.6);
+  }
+  .call-bar:hover { color: #fff; }
+  .site-footer { padding-bottom: 96px; }
+}
+
+@media (max-width: 560px) {
+  .brand img { height: 44px; }
+  .steps { grid-template-columns: 1fr; }
+  .gallery { columns: 1; }
+  .field-row { grid-template-columns: 1fr; }
+  .contact-list { grid-template-columns: 1fr; gap: 2px; }
+  .contact-list dd { margin-bottom: 12px; }
+  .footer-small { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
