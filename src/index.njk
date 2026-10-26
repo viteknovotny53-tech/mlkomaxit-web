@@ -124,7 +124,7 @@ permalink: /index.html
       <ul class="services">
         {%- for item in sluzby.items %}
         <li>
-          {{ icon(item.icon) }}
+          <span class="hex">{{ icon(item.icon) }}</span>
           <div>
             <h3>{{ item.title | cz }}</h3>
             <p>{{ item.text | cz }}</p>
@@ -150,6 +150,18 @@ permalink: /index.html
           <figcaption><strong>{{ item.title | cz }}</strong> {{ item.text | cz }}</figcaption>
         </figure>
         {%- endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- VÝZVA -->
+  <section class="cta-band" aria-labelledby="vyzva-nadpis">
+    <div class="wrap cta-inner">
+      <h2 id="vyzva-nadpis" class="display cta-heading">{{ vyzva.heading | cz }}</h2>
+      <p class="cta-text">{{ vyzva.text | cz }}</p>
+      <div class="actions">
+        <a class="btn btn-pink" href="tel:{{ tel }}">Zavolat {{ phoneShort }}</a>
+        <a class="btn btn-light" href="#kontakt">Poslat fotky</a>
       </div>
     </div>
   </section>

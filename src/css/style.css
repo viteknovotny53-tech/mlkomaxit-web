@@ -17,6 +17,8 @@
   --gutter: clamp(16px, 4vw, 40px);
   --section: clamp(72px, 10vw, 136px);
   --slant: 7%;
+  --cut: clamp(24px, 4vw, 64px);
+  --hex: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%);
 }
 
 *,
@@ -71,6 +73,7 @@ p { margin: 0; }
   text-transform: uppercase;
   line-height: .92;
   letter-spacing: .005em;
+  text-wrap: balance;
 }
 
 .steel {
@@ -308,7 +311,13 @@ h3 {
 /* Sekce */
 
 .section { padding-block: var(--section); }
-.section-panel { background: var(--panel); }
+
+/* šedé panely se šikmými hranami jako na letáku */
+.section.section-panel {
+  padding-block: calc(var(--section) + var(--cut));
+  background: var(--panel);
+  clip-path: polygon(0 var(--cut), 100% 0, 100% calc(100% - var(--cut)), 0 100%);
+}
 
 .section-head {
   display: grid;
@@ -349,7 +358,25 @@ h3 {
   border-top: 1px solid var(--line);
 }
 .services li:last-child { border-bottom: 1px solid var(--line); }
-.services .ico { width: 34px; height: 34px; margin-top: 2px; color: var(--cyan); }
+/* ikona v kovovém šestiúhelníku jako na letáku */
+.hex {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 54px;
+  background: linear-gradient(160deg, var(--steel-hi), #5b626b 55%, #c9ced4);
+  clip-path: var(--hex);
+}
+.hex::before {
+  content: "";
+  position: absolute;
+  inset: 1.5px;
+  background: var(--black);
+  clip-path: var(--hex);
+}
+.hex .ico { position: relative; color: var(--cyan); }
 .services p { margin-top: 6px; color: var(--muted); max-width: 36em; }
 
 /* Realizace */
@@ -391,6 +418,42 @@ h3 {
   font-stretch: 85%;
   font-size: 1.0625rem;
 }
+
+/* Pruh s výzvou – oblak prášku z úvodní fotky FB */
+
+.cta-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(88px, 11vw, 150px);
+  background: var(--black);
+}
+.cta-band::before {
+  content: "";
+  position: absolute;
+  inset: 0 -4% 0 34%;
+  z-index: -1;
+  background: url("../img/prasek.jpg") center / cover;
+  filter: blur(5px) saturate(1.25);
+  /* měkké okraje na všech stranách, aby oblak nikde neměl ostrou hranu */
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent);
+  mask-image: radial-gradient(closest-side, #000 55%, transparent);
+}
+.cta-heading {
+  max-width: 11em;
+  color: #fff;
+  font-size: clamp(2.75rem, 6.4vw, 5.25rem);
+}
+.cta-text {
+  max-width: 32em;
+  margin-top: 24px;
+  font-size: 1.1875rem;
+}
+
+.btn-light { color: var(--black); }
+.btn-light:hover { color: var(--black); }
+.btn-light::before { background: #fff; }
+.btn-light:hover::before { background: var(--steel-hi); }
 
 /* Postup */
 
@@ -624,6 +687,8 @@ h3 {
   .contact-grid { grid-template-columns: 1fr; }
   .section-head { grid-template-columns: 1fr; }
   .compare-wrap { max-width: 560px; }
+  .cta-band::before { inset: 0; opacity: .4; -webkit-mask-image: none; mask-image: none; }
+  .cta-heading, .cta-text { text-shadow: 0 2px 16px rgba(0,0,0,.8); }
 
   .call-bar {
     position: fixed;

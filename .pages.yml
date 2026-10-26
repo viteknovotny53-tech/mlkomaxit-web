@@ -131,6 +131,19 @@ content:
             label: Co je na fotce (pro nevidomé a Google)
             type: string
 
+  - name: vyzva
+    label: Pruh s výzvou (za galerií)
+    type: file
+    path: src/_data/vyzva.json
+    format: json
+    fields:
+      - name: heading
+        label: Nadpis
+        type: string
+      - name: text
+        label: Text
+        type: text
+
   - name: postup
     label: Jak to probíhá
     type: file
