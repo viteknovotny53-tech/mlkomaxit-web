@@ -106,10 +106,9 @@ content:
       - name: intro
         label: Úvodní věta
         type: string
-        description: Za ni se automaticky doplní odkazy na Facebook a Instagram.
+        description: Za ni se automaticky doplní odkazy na Facebook a Instagram. Pořadí fotek níže změníte přetažením – horní je v galerii první.
       - name: items
         label: Fotky realizací
-        description: Pořadí změníte přetažením. Nahoře = první v galerii.
         type: object
         list:
           collapsible:

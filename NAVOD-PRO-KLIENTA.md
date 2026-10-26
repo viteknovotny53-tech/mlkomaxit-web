@@ -21,7 +21,7 @@ V levém menu jsou části webu ve stejném pořadí, jako jdou na stránce:
 ## Přidání nové realizace do galerie
 
 1. V menu klikněte na **Realizace (galerie)**.
-2. Dole pod seznamem fotek klikněte na tlačítko pro přidání nové položky.
+2. Dole pod seznamem fotek klikněte na **Add an item** (přidat položku).
 3. U pole **Fotka** nahrajte fotku z počítače nebo z mobilu (JPG nebo PNG, klidně přímo z telefonu – web si ji sám zmenší).
 4. Vyplňte **Nadpis** (např. „Sada kol Audi v grafitové“) a krátký popis.
 5. Pole „Co je na fotce“ stačí vyplnit jednou větou – pomáhá to Googlu a nevidomým.
