@@ -358,12 +358,16 @@ h3 {
   background: var(--panel);
 }
 .story-poster,
+.story-spill,
 .story-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
+/* rozostřené pokračování scény vlevo od řezu: kreslí se v osminovém rozlišení,
+   zvětšení obstará prohlížeč */
+.story-spill { opacity: 0; }
 .story-poster { object-fit: cover; }
 
 .story-title {
@@ -461,17 +465,20 @@ html:not(.js) .story-step { margin-top: 32px; }
     position: absolute;
     inset: 0;
     background: none;
-    /* na začátku stejný výřez jako fotka v úvodu, main.js ho pak rozšíří */
-    clip-path: polygon(calc(54% + var(--slant)) 0, 100% 0, 100% 100%, 54% 100%);
   }
-  .js .story-poster { left: 54%; width: 46%; }
+  /* šikmý řez kreslí main.js do canvasu; fotka před jeho spuštěním má stejný výřez */
+  .js .story-poster {
+    left: 54%;
+    width: 46%;
+    clip-path: polygon(var(--slant) 0, 100% 0, 100% 100%, 0 100%);
+  }
   .js .story-text {
     --left: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
     position: absolute;
     top: 0; bottom: 0;
     left: var(--left);
-    /* text končí kousek před fotkou, která se rozšíří až na clamp(40 %, šířka − výška, 50 %) */
-    width: calc(clamp(40%, 100% - var(--stage-h), 50%) - var(--left) - clamp(32px, 4vw, 64px));
+    /* fotka se v příběhu přisune až k pravému okraji textu (main.js) */
+    width: min(28rem, calc(50% - var(--left)));
     display: flex;
     flex-direction: column;
     justify-content: center;

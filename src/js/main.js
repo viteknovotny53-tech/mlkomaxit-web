@@ -64,7 +64,10 @@ const stage = story.querySelector('.story-stage');
 const media = story.querySelector('.story-media');
 const canvas = story.querySelector('.story-canvas');
 const ctx = canvas.getContext('2d');
+const spillCanvas = story.querySelector('.story-spill');
+const spillCtx = spillCanvas.getContext('2d');
 const heroCopy = document.querySelector('.hero-copy');
+const storyText = story.querySelector('.story-text');
 const storyHead = [story.querySelector('.story-title'), story.querySelector('.story-bars')];
 const steps = [...story.querySelectorAll('.story-step')];
 const bars = [...story.querySelectorAll('.story-bars b')];
@@ -83,6 +86,7 @@ let H = 0;
 let dpr = 1;
 let intro = 0;
 let stepLen = 1;
+let textRight = 0;
 let y = null;
 let running = false;
 let last = 0;
@@ -96,9 +100,12 @@ const measure = () => {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = Math.round(media.clientWidth * dpr);
   canvas.height = Math.round(media.clientHeight * dpr);
+  spillCanvas.width = Math.ceil(media.clientWidth * SPILL);
+  spillCanvas.height = Math.ceil(media.clientHeight * SPILL);
   const css = getComputedStyle(story);
   intro = parseFloat(css.getPropertyValue('--intro')) * H;
   stepLen = parseFloat(css.getPropertyValue('--step')) * H;
+  textRight = storyText.offsetLeft + storyText.offsetWidth;
   drawn = '';
 };
 
@@ -117,7 +124,11 @@ const frameAt = (s) => {
   return lerp(keys[i], keys[i + 1], clamp(s - i));
 };
 
-const draw = (s, left) => {
+// rozostřená vrstva má osminové rozlišení scény
+const SPILL = 1 / 8;
+
+// spill = jak moc scéna vlevo od šikmého řezu pokračuje rozostřeně do tmy (0 = čistá černá)
+const draw = (s, left, spill) => {
   const f = frameAt(s);
   const i = nearest(Math.floor(f));
   if (i < 0) return;
@@ -125,24 +136,80 @@ const draw = (s, left) => {
   const j = i === Math.floor(f) && frames[i + 1] ? i + 1 : -1;
   const t = j < 0 ? 0 : Math.round((f - i) * 32) / 32;
   const zoom = calm.matches ? 1 : 1 + 0.04 * clamp(s / steps.length);
-  const key = `${i}:${t}:${Math.round(left)}:${zoom.toFixed(3)}:${tilt.x.toFixed(1)}:${tilt.y.toFixed(1)}`;
+  const key = `${i}:${t}:${Math.round(left)}:${zoom.toFixed(3)}:${tilt.x.toFixed(1)}:${tilt.y.toFixed(1)}:${spill.toFixed(2)}`;
   if (key === drawn) return;
   drawn = key;
 
   // fotka vyplní výřez od levého okraje fotky doprava (jako object-fit: cover);
   // při natočení za kurzorem se o kousek zvětší, aby u okraje nevznikla mezera
+  const cw = canvas.width;
+  const ch = canvas.height;
   const x0 = left * dpr;
-  const base = Math.max(canvas.height, canvas.width - x0);
+  const slant = wide.matches ? ch * 0.2126 : 0;
+  const base = Math.max(ch, cw - x0);
   const shift = Math.max(Math.abs(tilt.x), Math.abs(tilt.y)) * dpr;
   const size = base * zoom + shift * 2;
-  const x = x0 + (canvas.width - x0 - size) / 2 + tilt.x * dpr;
-  const top = (canvas.height - size) / 2 + tilt.y * dpr;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.globalAlpha = 1;
-  ctx.drawImage(frames[i], x, top, size, size);
-  if (t > 0) {
-    ctx.globalAlpha = t;
-    ctx.drawImage(frames[j], x, top, size, size);
+  const x = x0 + (cw - x0 - size) / 2 + tilt.x * dpr;
+  const top = (ch - size) / 2 + tilt.y * dpr;
+  const paint = (target, px, py, ps) => {
+    target.globalAlpha = 1;
+    target.drawImage(frames[i], px, py, ps, ps);
+    if (t > 0) {
+      target.globalAlpha = t;
+      target.drawImage(frames[j], px, py, ps, ps);
+    }
+  };
+  ctx.clearRect(0, 0, cw, ch);
+
+  spillCanvas.style.opacity = spill.toFixed(2);
+  if (spill > 0) {
+    // stejný záběr, jen rozostřený a větší, aby se rozlil doleva až za text do černé;
+    // za textem čistá černá, u řezu prosvítá zhruba polovina
+    const k = SPILL / dpr;
+    const sw = spillCanvas.width;
+    const sh = spillCanvas.height;
+    const big = size * 2.4 * k;
+    spillCtx.clearRect(0, 0, sw, sh);
+    spillCtx.filter = 'blur(4px)';
+    spillCtx.globalAlpha = 1;
+    spillCtx.drawImage(frames[i], (x + size / 2) * k - big / 2, (top + size / 2) * k - big / 2, big, big);
+    if (t > 0) {
+      spillCtx.globalAlpha = t;
+      spillCtx.drawImage(frames[j], (x + size / 2) * k - big / 2, (top + size / 2) * k - big / 2, big, big);
+    }
+    spillCtx.filter = 'none';
+    const fade = spillCtx.createLinearGradient((x0 - cw * 0.3) * k, 0, (x0 + slant) * k, 0);
+    fade.addColorStop(0, 'rgba(0, 0, 0, 1)');
+    fade.addColorStop(1, 'rgba(0, 0, 0, 0.5)');
+    spillCtx.globalAlpha = 1;
+    spillCtx.fillStyle = fade;
+    spillCtx.fillRect(0, 0, sw, sh);
+  }
+
+  // ostrá fotka jen za šikmým řezem
+  ctx.save();
+  if (slant) {
+    ctx.beginPath();
+    ctx.moveTo(x0 + slant, 0);
+    ctx.lineTo(cw, 0);
+    ctx.lineTo(cw, ch);
+    ctx.lineTo(x0, ch);
+    ctx.closePath();
+    ctx.clip();
+  }
+  paint(ctx, x, top, size);
+  ctx.restore();
+
+  if (spill > 0) {
+    // řez jako hrana skla: tenká světlá linka mezi ostrou a rozostřenou částí
+    ctx.globalAlpha = spill;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = dpr;
+    ctx.beginPath();
+    ctx.moveTo(x0 + slant, 0);
+    ctx.lineTo(x0, ch);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
   }
 };
 
@@ -162,18 +229,19 @@ const setActive = (a) => {
 const render = (pos) => {
   const s = (pos - intro) / stepLen;
   let left = 0;
+  let spill = 0;
 
   if (wide.matches) {
-    // úvodní text odjede nahoru sám, tady jen zhasne a fotka se rozšíří doleva
+    // úvodní text odjede nahoru sám, tady jen zhasne, fotka se rozšíří doleva
+    // a scéna se začne rozlévat do tmy za textem (v úvodu zůstává vlevo čistá černá)
     const open = easeInOut(clamp(pos / intro));
-    left = lerp(W * 0.54, clamp(W - H, W * 0.4, W * 0.5), open);
-    const slant = H * 0.2126;
-    media.style.clipPath = `polygon(${left + slant}px 0, 100% 0, 100% 100%, ${left}px 100%)`;
+    // v příběhu řez vede šikmo kousek za pravým okrajem textu
+    left = lerp(W * 0.54, clamp(textRight + 28, W * 0.36, W * 0.52), open);
+    spill = open;
     heroCopy.style.opacity = 1 - clamp(pos / (intro * 0.8));
     const headIn = String(clamp((pos - intro * 0.6) / (intro * 0.4)));
     storyHead.forEach((el) => { el.style.opacity = headIn; });
   } else {
-    media.style.clipPath = '';
     heroCopy.style.opacity = '';
     storyHead.forEach((el) => { el.style.opacity = ''; });
   }
@@ -182,7 +250,7 @@ const render = (pos) => {
   setActive(wide.matches && s < -0.2 ? -1 : clamp(Math.floor(s), 0, steps.length - 1));
   bars.forEach((bar, i) => { bar.style.transform = `scaleX(${clamp(s - i).toFixed(3)})`; });
 
-  draw(s, left);
+  draw(s, left, spill);
 };
 
 // vyhlazení, aby kolečko myši neposouvalo video po skocích; natočení za kurzorem
