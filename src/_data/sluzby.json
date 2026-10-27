@@ -26,6 +26,11 @@
       "title": "Svařování a opravy poškozených dílů",
       "text": "Prasklé nebo poškozené díly opravíme ještě před lakováním.",
       "icon": "svarovani"
+    },
+    {
+      "title": "Svoz a dovoz zakázek",
+      "text": "Nemáte jak díl přivézt? Vyzvedneme ho u vás a hotový dovezeme zpět.",
+      "icon": "svoz"
     }
   ],
   "fitsHeading": "Co u nás nalakujete",

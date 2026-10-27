@@ -12,10 +12,10 @@ V levém menu jsou části webu ve stejném pořadí, jako jdou na stránce:
 | V menu | Co upravíte |
 |---|---|
 | Úvod | velký nadpis, text pod ním, fotky před/po |
-| Služby | seznam služeb a rámeček „Co u nás nalakujete“ |
+| Služby | seznam služeb a odstavec „Co u nás nalakujete“ |
 | Realizace (galerie) | fotky vašich zakázek s popisky |
+| Pruh s výzvou (za galerií) | velký nadpis a text v pruhu s barevným práškem |
 | Jak to probíhá | kroky objednávky |
-| Proč my | velký nadpis a body se zaškrtnutím |
 | Kontakt a firma | telefon, e-mail, adresa, provozní doba, IČO |
 
 ## Přidání nové realizace do galerie

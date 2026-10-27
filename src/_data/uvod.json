@@ -1,10 +1,8 @@
 {
   "headline": "Vracíme kovovým dílům nový život",
-  "lead": "Prášková lakovna v Malé Čermné. Lakujeme kola, díly aut a motorek, konstrukce i kusové výrobky – od drobných součástí až po díly dlouhé 2,5 m.",
-  "pickup": "Nemáte jak zakázku přivézt? Vyzvedneme ji u vás a hotovou dovezeme zpět.",
+  "lead": "Prášková lakovna v Malé Čermné. Lakujeme kola, díly aut a motorek, konstrukce i kusové výrobky až do délky 2,5 m.",
   "before": "/img/uploads/kolo-pred.jpg",
-  "beforeAlt": "Kolo před renovací – zašlé a poškozené",
+  "beforeAlt": "Kolo před renovací, zašlé a poškozené",
   "after": "/img/uploads/kolo-po.jpg",
-  "afterAlt": "Stejné kolo po renovaci – černý lesklý lak",
-  "caption": "Kolo, které mělo skončit ve šrotu. Odlakování, tryskání, rovnání, broušení a dvě vrstvy nového laku."
+  "afterAlt": "Stejné kolo po renovaci v černém lesklém laku"
 }

@@ -21,10 +21,7 @@ content:
       - name: lead
         label: Text pod nadpisem
         type: text
-      - name: pickup
-        label: Věta o svozu zakázek
-        type: string
-        description: Když necháte prázdné, řádek se nezobrazí.
+        description: Stačí dvě krátké věty, ať se úvod vejde na obrazovku.
       - name: before
         label: Fotka PŘED
         type: image
@@ -37,9 +34,6 @@ content:
         type: image
       - name: afterAlt
         label: Popis fotky PO (pro nevidomé a Google)
-        type: string
-      - name: caption
-        label: Popisek pod srovnáním
         type: string
 
   - name: sluzby
@@ -75,17 +69,17 @@ content:
             options:
               values:
                 - name: lakovani
-                  label: Stříkací pistole
+                  label: Sprej (lakování)
                 - name: odlakovani
                   label: Baňka (chemie)
                 - name: tryskani
-                  label: Tryskání
+                  label: Proud vzduchu (tryskání)
                 - name: renovace
                   label: Kolo
                 - name: svarovani
                   label: Klíč (opravy)
                 - name: svoz
-                  label: Auto (svoz)
+                  label: Nákladní auto (svoz)
       - name: fitsHeading
         label: Nadpis rámečku „Co u nás nalakujete“
         type: string
@@ -139,6 +133,7 @@ content:
       - name: heading
         label: Nadpis
         type: string
+        description: Velký nadpis v pruhu s barevným práškem, třeba vaše krédo.
       - name: text
         label: Text
         type: text
@@ -167,23 +162,6 @@ content:
           - name: text
             label: Popis
             type: text
-
-  - name: procmy
-    label: Proč my
-    type: file
-    path: src/_data/procmy.json
-    format: json
-    fields:
-      - name: motto
-        label: Velký nadpis
-        type: string
-      - name: text
-        label: Text pod nadpisem
-        type: text
-      - name: points
-        label: Body se zaškrtnutím
-        type: string
-        list: true
 
   - name: site
     label: Kontakt a firma
