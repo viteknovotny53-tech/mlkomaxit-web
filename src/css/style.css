@@ -194,27 +194,30 @@ h3 {
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
 
-/* Úvod – text vlevo, nástřik kola vpravo až k okraji, dělený šikmým řezem
-   jako panely na letáku (a úvod webu Rejman, který se klientovi líbil) */
+/* Úvod a postup – úvodní obrazovka při scrollu plynule přejde v cestu kola dílnou.
+   Scéna (fotka vpravo, popisky vlevo) zůstane stát, main.js podle scrollu kreslí
+   snímky videa a vysouvá popisky kroků. Bez JavaScriptu je postup obyčejná sekce. */
 
-.hero-pin { --hero-h: min(calc(100svh - var(--header)), 860px); }
+:root {
+  --stage-h: calc(100svh - var(--header));
+  /* šikmý řez fotky ve stejném sklonu jako tlačítka (12°) */
+  --slant: calc(var(--stage-h) * .2126);
+}
+
 .hero {
   --split: 54vw;
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: var(--split) minmax(0, 1fr);
-  min-height: var(--hero-h);
-}
-/* úvod se při scrollu na chvíli zastaví, než se kolo nastříká */
-@media (min-width: 861px) {
-  .hero-pin.is-scrub { height: calc(var(--hero-h) + 70svh); }
-  .hero-pin.is-scrub .hero { position: sticky; top: var(--header); }
+  min-height: var(--stage-h);
 }
 .hero-copy {
   align-self: center;
   justify-self: end;
   /* levý okraj textu lícuje s obsahem sekcí pod úvodem */
   width: min(100%, calc(var(--split) - (100vw - var(--wrap)) / 2));
-  padding: clamp(48px, 6vw, 88px) clamp(28px, 4vw, 64px) clamp(48px, 6vw, 88px) var(--gutter);
+  padding: clamp(32px, 7svh, 88px) clamp(28px, 4vw, 64px) clamp(32px, 7svh, 88px) var(--gutter);
 }
 .hero h1 {
   font-size: clamp(3rem, 6vw, 5.5rem);
@@ -228,34 +231,120 @@ h3 {
 }
 .actions { display: flex; flex-wrap: wrap; gap: 14px 22px; margin-top: 36px; }
 
-/* Nástřik – snímky videa se kreslí na canvas podle scrollu (main.js) */
-
-.coat {
+.story {
+  --intro: .5;   /* kolik výšky obrazovky trvá přechod z úvodu (jen desktop) */
+  --step: .7;    /* kolik výšky obrazovky připadne na jeden krok */
   position: relative;
-  min-height: 420px;
+}
+.story-media {
+  position: relative;
   overflow: hidden;
-  /* stejný sklon jako tlačítka (12°) */
-  clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
   background: var(--panel);
 }
-.coat img,
-.coat-canvas {
+.story-poster,
+.story-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
-.coat img { object-fit: cover; }
-.coat-tag {
-  position: absolute;
-  bottom: 20px;
-  padding: 2px 12px;
-  background: rgba(0,0,0,.72);
+.story-poster { object-fit: cover; }
+
+.story-title {
+  color: var(--steel-lo);
   font-stretch: 85%;
-  font-weight: 700;
+  font-size: 1.125rem;
 }
-.coat-tag-before { left: 20px; }
-.coat-tag-after { right: 20px; opacity: 0; }
+.story-bars {
+  display: grid;
+  grid-template-columns: repeat(var(--steps), 1fr);
+  gap: 6px;
+  max-width: 20rem;
+  margin-top: 14px;
+}
+.story-bars i { height: 3px; overflow: hidden; background: var(--line); }
+.story-bars b {
+  display: block;
+  height: 100%;
+  background: var(--pink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.story-steps { margin: 0; padding: 0; list-style: none; }
+.story-step h3 {
+  font-size: clamp(2.25rem, 3.8vw, 3.5rem);
+  line-height: 1;
+}
+.story-step p {
+  max-width: 24em;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.125rem;
+}
+
+/* bez JavaScriptu: fotka a kroky pod sebou jako běžná sekce */
+html:not(.js) .story { padding-block: var(--section); }
+html:not(.js) .story-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+html:not(.js) .story-media { aspect-ratio: 1; }
+html:not(.js) .story-bars { display: none; }
+html:not(.js) .story-step { margin-top: 32px; }
+
+/* s JavaScriptem: scéna stojí, dokud kolo neprojde všemi kroky */
+.js .story-stage {
+  position: sticky;
+  top: var(--header);
+  height: var(--stage-h);
+  overflow: hidden;
+}
+.js .story-steps { position: relative; }
+.js .story-step {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (min-width: 861px) {
+  /* úvod leží přes začátek scény, při scrollu odjede a zůstane jen fotka */
+  .js .hero {
+    height: var(--stage-h);
+    margin-bottom: calc(var(--stage-h) * -1);
+  }
+  .js .story { height: calc(var(--stage-h) * (1 + var(--intro) + var(--steps) * var(--step))); }
+  .js .story-anchor {
+    position: absolute;
+    top: calc(var(--stage-h) * (var(--intro) + var(--step) * .3));
+  }
+  .js .story-media {
+    position: absolute;
+    inset: 0;
+    background: none;
+    /* na začátku stejný výřez jako fotka v úvodu, main.js ho pak rozšíří */
+    clip-path: polygon(calc(54% + var(--slant)) 0, 100% 0, 100% 100%, 54% 100%);
+  }
+  .js .story-poster { left: 54%; width: 46%; }
+  .js .story-text {
+    --left: max(var(--gutter), calc((100% - var(--wrap)) / 2 + var(--gutter)));
+    position: absolute;
+    top: 0; bottom: 0;
+    left: var(--left);
+    /* text končí kousek před fotkou, která se rozšíří až na clamp(40 %, šířka − výška, 50 %) */
+    width: calc(clamp(40%, 100% - var(--stage-h), 50%) - var(--left) - clamp(32px, 4vw, 64px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .js .story-title,
+  .js .story-bars { opacity: 0; }
+  .js .story-steps { height: 15rem; margin-top: clamp(28px, 5svh, 48px); }
+}
 
 /* Sekce */
 
@@ -368,44 +457,6 @@ h3 {
 .btn-light:hover { color: var(--black); }
 .btn-light::before { background: #fff; }
 .btn-light:hover::before { background: var(--steel-hi); }
-
-/* Postup */
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 28px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: step;
-}
-.steps li {
-  position: relative;
-  padding-top: 76px;
-  counter-increment: step;
-}
-.steps li::before {
-  content: counter(step);
-  position: absolute;
-  top: 0; left: 0;
-  color: var(--steel-lo);
-  font-stretch: 68%;
-  font-weight: 800;
-  font-style: italic;
-  font-size: 3.75rem;
-  line-height: 1;
-}
-.steps li::after {
-  /* spojnice mezi kroky */
-  content: "";
-  position: absolute;
-  top: 30px; left: 56px; right: -14px;
-  height: 1px;
-  background: var(--line);
-}
-.steps li:last-child::after { display: none; }
-.steps p { margin-top: 8px; color: var(--muted); }
 
 /* Kontakt */
 
@@ -540,8 +591,6 @@ h3 {
 /* Responzivita */
 
 @media (max-width: 1000px) {
-  .steps { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
-  .steps li::after { display: none; }
   .gallery { columns: 2; }
 }
 
@@ -564,11 +613,25 @@ h3 {
 
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { justify-self: stretch; width: auto; padding: 40px var(--gutter) 44px; }
-  .coat {
-    aspect-ratio: 1;
-    min-height: 0;
-    clip-path: polygon(0 9%, 100% 0, 100% 100%, 0 100%);
+
+  .story { --intro: 0; }
+  html:not(.js) .story-stage { grid-template-columns: 1fr; }
+  .story-media { clip-path: polygon(0 9%, 100% 0, 100% 100%, 0 100%); }
+  .js .story { height: calc(var(--stage-h) * (1 + var(--steps) * var(--step))); }
+  .js .story-anchor { position: absolute; top: calc(var(--stage-h) * var(--step) * .3); }
+  .js .story-stage { display: flex; flex-direction: column; }
+  .js .story-media { flex: none; height: min(100vw, 50svh); }
+  .js .story-text {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* dole místo pro lištu Zavolat */
+    padding: 20px var(--gutter) 88px;
   }
+  .js .story-steps { flex: 1; margin-top: 20px; }
+  .js .story-step:first-child { opacity: 1; }
+  .story-step h3 { font-size: clamp(1.875rem, 8vw, 2.5rem); }
+  .story-step p { margin-top: 12px; font-size: 1.0625rem; }
 
   .services-grid,
   .contact-grid { grid-template-columns: 1fr; }
@@ -596,7 +659,6 @@ h3 {
 
 @media (max-width: 560px) {
   .brand img { height: 44px; }
-  .steps { grid-template-columns: 1fr; }
   .gallery { columns: 1; }
   .field-row { grid-template-columns: 1fr; }
   .contact-list { grid-template-columns: 1fr; gap: 2px; }

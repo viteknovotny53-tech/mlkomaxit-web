@@ -2,6 +2,12 @@
   "intro": "Výběr z naší práce.",
   "items": [
     {
+      "image": "/img/uploads/kolo-po.jpg",
+      "alt": "Hliníkové kolo z úvodu po renovaci v černém lesklém laku, opřené o paletu",
+      "title": "Kolo z úvodu",
+      "text": "Takhle vypadá po renovaci doopravdy. Animace nahoře postup jen ilustruje."
+    },
+    {
       "image": "/img/uploads/mazda-viko-2.jpg",
       "alt": "Víko ventilů Mazda DOHC 16V ve žlutém lesklém laku",
       "title": "Mazda DOHC 16V",

@@ -23,6 +23,7 @@ permalink: /index.html
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,100..900;1,50..125,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,9 +56,9 @@ permalink: /index.html
       <span class="sr-only">Menu</span>
     </button>
     <nav id="menu" class="nav" aria-label="Hlavní">
+      <a href="#postup">Jak to probíhá</a>
       <a href="#sluzby">Služby</a>
       <a href="#realizace">Realizace</a>
-      <a href="#postup">Jak to probíhá</a>
       <a href="#kontakt">Kontakt</a>
       <a class="btn btn-pink btn-sm" href="tel:{{ tel }}">{{ phoneShort }}</a>
     </nav>
@@ -66,8 +67,7 @@ permalink: /index.html
 
 <main id="obsah">
 
-  <!-- ÚVOD: při scrollu se kolo nastříká (AI video ze skutečné fotky před renovací) -->
-  <div class="hero-pin">
+  <!-- ÚVOD -->
   <section class="hero">
     <div class="hero-copy">
       <h1 class="display steel">{{ uvod.headline | cz }}</h1>
@@ -77,15 +77,33 @@ permalink: /index.html
         <a class="btn btn-steel" href="#kontakt">Poslat fotky</a>
       </div>
     </div>
+  </section>
 
-    <div class="coat" data-frames="36">
-      <img src="/img/nastrik/f000.webp" alt="{{ uvod.videoAlt }}" width="760" height="760" fetchpriority="high" eleventy:ignore>
-      <canvas class="coat-canvas" aria-hidden="true"></canvas>
-      <span class="coat-tag coat-tag-before" aria-hidden="true">Před</span>
-      <span class="coat-tag coat-tag-after" aria-hidden="true">Po</span>
+  <!-- JAK TO PROBÍHÁ: úvod při scrollu přejde v cestu kola dílnou. Snímky jsou z AI videa
+       vytvořeného z fotky kola před renovací; data-keys = snímek na začátku každého kroku a na konci -->
+  <section class="story" style="--steps: {{ postup.steps | length }}" aria-labelledby="postup-nadpis">
+    <span id="postup" class="story-anchor"></span>
+    <div class="story-stage">
+      <div class="story-media" data-frames="60" data-keys="0,0,23,45,59,59">
+        <img class="story-poster" src="/img/proces/f000.webp" alt="{{ uvod.videoAlt }}" width="760" height="760" fetchpriority="high" eleventy:ignore>
+        <canvas class="story-canvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="story-text">
+        <h2 id="postup-nadpis" class="story-title">Jak to probíhá</h2>
+        <div class="story-bars" aria-hidden="true">
+          {%- for step in postup.steps %}<i><b></b></i>{% endfor -%}
+        </div>
+        <ol class="story-steps">
+          {%- for step in postup.steps %}
+          <li class="story-step">
+            <h3 class="display">{{ step.title | cz }}</h3>
+            <p>{{ step.text | cz }}</p>
+          </li>
+          {%- endfor %}
+        </ol>
+      </div>
     </div>
   </section>
-  </div>
 
   <!-- SLUŽBY -->
   <section id="sluzby" class="section">
@@ -149,24 +167,6 @@ permalink: /index.html
         <a class="btn btn-pink" href="tel:{{ tel }}">Zavolat {{ phoneShort }}</a>
         <a class="btn btn-light" href="#kontakt">Poslat fotky</a>
       </div>
-    </div>
-  </section>
-
-  <!-- POSTUP -->
-  <section id="postup" class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 class="display">Jak to probíhá</h2>
-        <p>{{ postup.intro | cz }}</p>
-      </div>
-      <ol class="steps">
-        {%- for step in postup.steps %}
-        <li>
-          <h3>{{ step.title | cz }}</h3>
-          <p>{{ step.text | cz }}</p>
-        </li>
-        {%- endfor %}
-      </ol>
     </div>
   </section>
 
