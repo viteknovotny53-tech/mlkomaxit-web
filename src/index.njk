@@ -92,7 +92,7 @@ permalink: /index.html
       <div class="story-text">
         <h2 id="postup-nadpis" class="story-title">Jak to probíhá</h2>
         <div class="story-bars" aria-hidden="true">
-          {%- for step in postup.steps %}<i><b></b></i>{% endfor -%}
+          {%- set last = (postup.steps | length) - 1 %}{%- for step in postup.steps %}<i style="--k: {{ loop.index0 / last if last else 0 }}"><b></b></i>{% endfor -%}
         </div>
         <ol class="story-steps">
           {%- for step in postup.steps %}

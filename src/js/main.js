@@ -201,9 +201,9 @@ const draw = (s, left, spill) => {
   ctx.restore();
 
   if (spill > 0) {
-    // řez jako hrana skla: tenká světlá linka mezi ostrou a rozostřenou částí
+    // řez jako hrana skla: tenká tyrkysová linka z loga mezi ostrou a rozostřenou částí
     ctx.globalAlpha = spill;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.strokeStyle = 'rgba(34, 184, 216, 0.6)';
     ctx.lineWidth = dpr;
     ctx.beginPath();
     ctx.moveTo(x0 + slant, 0);
