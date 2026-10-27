@@ -36,12 +36,15 @@
 *::after { box-sizing: border-box; }
 
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header) + 16px);
   scrollbar-color: #2b2d34 #000;
 }
 html.menu-open { overflow: hidden; }
 ::selection { background: var(--pink-fill); color: #fff; }
+a, button, input, textarea, label { touch-action: manipulation; }
+a, button { -webkit-tap-highlight-color: rgba(34, 184, 216, .2); }
 
 body {
   margin: 0;
@@ -802,6 +805,27 @@ html:not(.js) .story-step { margin-top: 32px; }
   color: var(--text);
 }
 .lightbox::backdrop { background: rgba(0,0,0,.88); }
+.lightbox { overscroll-behavior: contain; }
+/* šipky na předchozí a další fotku (taky klávesami ← →) */
+.lightbox-nav {
+  position: absolute;
+  top: calc(50% - 32px);
+  display: grid;
+  place-items: center;
+  width: 48px; height: 48px;
+  border: 0;
+  background: rgba(0,0,0,.7);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+.lightbox-nav:hover { background: var(--pink-fill); }
+.lightbox-nav .ico-ui { width: 22px; height: 22px; }
+.lightbox-prev { left: 8px; }
+.lightbox-prev .ico-ui { transform: rotate(135deg); }
+.lightbox-next { right: 8px; }
+.lightbox-next .ico-ui { transform: rotate(-45deg); }
+.lightbox-nav[hidden] { display: none; }
 .lightbox[open] { animation: lb-in .18s ease-out; }
 .lightbox img { max-height: calc(92vh - 64px); width: auto; margin-inline: auto; }
 .lightbox-caption { padding: 14px 64px 16px 16px; color: var(--muted); }
@@ -898,7 +922,7 @@ html:not(.js) .story-step { margin-top: 32px; }
 
   .call-bar {
     position: fixed;
-    left: 12px; right: 12px; bottom: 12px;
+    left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
     z-index: 40;
     display: flex;
     align-items: center;

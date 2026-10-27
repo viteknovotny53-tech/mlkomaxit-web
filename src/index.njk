@@ -15,7 +15,9 @@ permalink: /index.html
   <meta name="description" content="{{ site.description }}">
   <meta property="og:title" content="{{ site.title }}">
   <meta property="og:description" content="{{ uvod.headline }}. {{ site.description }}">
-  <meta property="og:image" content="/img/logo.jpg">
+  <meta property="og:image" content="{{ site.url }}/img/logo.jpg">
+  <meta property="og:url" content="{{ site.url }}/">
+  <meta property="og:locale" content="cs_CZ">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/favicon.png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
@@ -209,7 +211,7 @@ permalink: /index.html
 
       <form class="form" data-reveal name="poptavka" method="POST" action="/dekujeme/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
         <input type="hidden" name="form-name" value="poptavka">
-        <p class="hp"><label>Nevyplňujte <input name="bot-field"></label></p>
+        <p class="hp" aria-hidden="true"><label>Nevyplňujte <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
         <h3>Poptávka</h3>
         <p class="form-hint">Popište, co potřebujete nalakovat, a&nbsp;přiložte fotky. Ozveme se s&nbsp;cenou.</p>
@@ -225,12 +227,12 @@ permalink: /index.html
           </div>
           <div class="field">
             <label for="f-email">E-mail</label>
-            <input id="f-email" name="email" type="email" autocomplete="email">
+            <input id="f-email" name="email" type="email" autocomplete="email" spellcheck="false">
           </div>
         </div>
         <div class="field">
           <label for="f-msg">Co potřebujete nalakovat</label>
-          <textarea id="f-msg" name="zprava" rows="5" placeholder="Např. 4 alu kola 17&quot;, černý lesk, potřebuji i svoz"></textarea>
+          <textarea id="f-msg" name="zprava" rows="5" placeholder="Např. 4 alu kola 17″, černý lesk, potřebuji i svoz…"></textarea>
         </div>
         <div class="field">
           <label for="f-files">Fotky dílů</label>
@@ -293,6 +295,8 @@ permalink: /index.html
   <img eleventy:ignore src="data:," alt="">
   <p class="lightbox-caption"></p>
   <button class="lightbox-close" type="button" aria-label="Zavřít">×</button>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Předchozí fotka">{{ ui("arrow") }}</button>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Další fotka">{{ ui("arrow") }}</button>
 </dialog>
 
 <script src="/js/main.js" defer></script>

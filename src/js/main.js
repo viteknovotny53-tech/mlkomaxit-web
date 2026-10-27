@@ -378,18 +378,42 @@ const largestSrc = (btn, img) => {
   return source.srcset.split(',').pop().trim().split(' ')[0];
 };
 
-document.querySelectorAll('.g-open').forEach((btn) => {
+const shots = [...document.querySelectorAll('.g-open')];
+let current = 0;
+
+const showShot = (i) => {
+  current = (i + shots.length) % shots.length;
+  const btn = shots[current];
+  const img = btn.querySelector('img');
+  const caption = btn.closest('figure').querySelector('figcaption');
+  lbImg.src = largestSrc(btn, img);
+  lbImg.alt = img.alt;
+  lbCaption.innerHTML = caption ? caption.innerHTML : '';
+};
+
+shots.forEach((btn, i) => {
   btn.addEventListener('click', () => {
-    const img = btn.querySelector('img');
-    const caption = btn.closest('figure').querySelector('figcaption');
-    lbImg.src = largestSrc(btn, img);
-    lbImg.alt = img.alt;
-    lbCaption.innerHTML = caption ? caption.innerHTML : '';
+    showShot(i);
     lightbox.showModal();
   });
 });
 
+lightbox.querySelectorAll('.lightbox-nav').forEach((nav) => { nav.hidden = shots.length < 2; });
+lightbox.querySelector('.lightbox-prev').addEventListener('click', () => showShot(current - 1));
+lightbox.querySelector('.lightbox-next').addEventListener('click', () => showShot(current + 1));
+lightbox.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') showShot(current - 1);
+  if (e.key === 'ArrowRight') showShot(current + 1);
+});
 lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
 lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) lightbox.close();
+});
+
+// Poptávka: po odeslání se tlačítko zamkne, aby se neodeslala dvakrát
+const form = document.querySelector('.form');
+form.addEventListener('submit', () => {
+  const submit = form.querySelector('[type="submit"]');
+  submit.disabled = true;
+  submit.querySelector('span').textContent = 'Odesílám…';
 });
