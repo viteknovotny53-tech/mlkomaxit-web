@@ -52,16 +52,6 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-/* jemné zrno přes celou stránku, jako prášek na kovu; stojí na místě a nic nepřekresluje */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 45;
-  pointer-events: none;
-  opacity: .05;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
 
 img { display: block; max-width: 100%; height: auto; }
 
@@ -544,18 +534,7 @@ html:not(.js) .story-step { margin-top: 32px; }
 .services li:first-child { padding-top: 4px; border-top: 0; }
 .services .ico { margin-top: 2px; color: var(--cyan); transition: transform .5s var(--ease-out), color .3s ease; }
 @media (hover: hover) and (pointer: fine) {
-  /* růžové světlo jde za kurzorem (main.js nastavuje --mx a --my) */
-  .services li::before {
-    content: "";
-    position: absolute;
-    inset: 0 -16px;
-    z-index: -1;
-    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(232,51,138,.12), transparent 70%);
-    opacity: 0;
-    transition: opacity .5s var(--ease-out);
-  }
-  .services li:hover::before { opacity: 1; }
-  .services li:hover .ico { transform: translateX(4px); color: var(--pink-hi); }
+  .services li:hover .ico { transform: translateX(4px); }
 }
 .services p { margin-top: 6px; color: var(--muted); max-width: 36em; }
 
@@ -614,8 +593,6 @@ html:not(.js) .story-step { margin-top: 32px; }
   z-index: -1;
   background: url("../img/prasek.jpg") center / cover;
   filter: blur(5px) saturate(1.25);
-  transform: translate3d(var(--cx, 0px), var(--cy, 0px), 0) scale(1.06);
-  transition: transform 1.2s var(--ease-out);
   /* měkké okraje na všech stranách, aby oblak nikde neměl ostrou hranu */
   -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent);
   mask-image: radial-gradient(closest-side, #000 55%, transparent);
@@ -674,6 +651,25 @@ html:not(.js) .story-step { margin-top: 32px; }
   aspect-ratio: 16 / 10;
   background: var(--panel);
   clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+/* náhled místo mapy; Mapy Google se načtou až po kliknutí */
+.map-load {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 100%;
+  color: var(--text);
+  text-decoration: none;
+  background: radial-gradient(120% 90% at 50% 40%, rgba(34,184,216,.14), transparent 70%), var(--panel);
+  transition: background-color .3s ease;
+}
+.map-load .ico-ui { width: 32px; height: 32px; color: var(--cyan); transition: transform .5s var(--ease-out); }
+.map-load span { display: grid; gap: 2px; color: var(--muted); font-size: .875rem; }
+.map-load strong { color: var(--text); font-stretch: 85%; font-size: 1.0625rem; }
+.map-load:hover { color: var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  .map-load:hover .ico-ui { transform: translateY(-3px); }
 }
 .map iframe {
   width: 100%;
@@ -877,7 +873,7 @@ html:not(.js) .story-step { margin-top: 32px; }
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { justify-self: stretch; width: auto; padding: calc(var(--header) + 36px) var(--gutter) 44px; }
 
-  .story { --intro: 0; }
+  .story { --intro: 0; --step: .55; }
   html:not(.js) .story-stage { grid-template-columns: 1fr; }
   .story-media { clip-path: polygon(0 9%, 100% 0, 100% 100%, 0 100%); }
   .js .story { height: calc(var(--stage-h) * (1 + var(--steps) * var(--step))); }
@@ -938,6 +934,5 @@ html:not(.js) .story-step { margin-top: 32px; }
   .js .hero-copy > *,
   .js .story-step > *,
   .nav > *,
-  .g-open img,
-  .cta-band::before { transform: none !important; }
+  .g-open img { transform: none !important; }
 }

@@ -84,7 +84,7 @@ permalink: /index.html
   <section class="story" style="--steps: {{ postup.steps | length }}" aria-labelledby="postup-nadpis">
     <span id="postup" class="story-anchor"></span>
     <div class="story-stage">
-      <div class="story-media" data-frames="100" data-keys="0,0,39,75,99,99">
+      <div class="story-media" data-frames="100" data-keys="0,0,39,75,99,99" data-frames-m="50" data-keys-m="0,0,19,37,49,49">
         <img class="story-poster" src="/img/proces/f000.webp" alt="{{ uvod.videoAlt }}" width="680" height="680" fetchpriority="high" eleventy:ignore>
         <canvas class="story-spill" aria-hidden="true"></canvas>
         <canvas class="story-canvas" aria-hidden="true"></canvas>
@@ -196,8 +196,14 @@ permalink: /index.html
           </dd>
         </dl>
 
+        {#- mapa Google se načte až po kliknutí (cookies); bez JavaScriptu odkaz otevře Mapy Google #}
+        {%- set place = (site.street + ', ' + site.city) | urlencode %}
         <div class="map">
-          <iframe title="Mapa: {{ site.street }}" src="https://maps.google.com/maps?q={{ (site.street + ', ' + site.city) | urlencode }}&z=13&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <a class="map-load" href="https://www.google.com/maps/search/?api=1&amp;query={{ place }}" target="_blank" rel="noopener"
+             data-embed="https://maps.google.com/maps?q={{ place }}&amp;z=13&amp;output=embed" data-title="Mapa: {{ site.street }}">
+            {{ ui("pin") }}
+            <span><strong>Zobrazit mapu</strong>Načte se z Map Google</span>
+          </a>
         </div>
       </div>
 
