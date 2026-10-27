@@ -303,12 +303,20 @@ html:not(.js) .story-step { margin-top: 32px; }
   height: var(--stage-h);
   overflow: hidden;
 }
-.js .story-steps { position: relative; }
+/* okénko, kterým popisky projíždějí; nahoře a dole měkce mizí */
+.js .story-steps {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 1.5rem, #000 calc(100% - 2.5rem), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 1.5rem, #000 calc(100% - 2.5rem), transparent);
+}
 .js .story-step {
   position: absolute;
   top: 0; left: 0; right: 0;
+  height: 100%;
+  padding-top: 1.75rem;
   opacity: 0;
-  will-change: transform, opacity;
+  will-change: transform;
 }
 
 @media (min-width: 861px) {
@@ -343,7 +351,7 @@ html:not(.js) .story-step { margin-top: 32px; }
   }
   .js .story-title,
   .js .story-bars { opacity: 0; }
-  .js .story-steps { height: 15rem; margin-top: clamp(28px, 5svh, 48px); }
+  .js .story-steps { height: 17rem; margin-top: clamp(4px, 1.5svh, 16px); }
 }
 
 /* Sekce */
@@ -620,7 +628,7 @@ html:not(.js) .story-step { margin-top: 32px; }
   .js .story { height: calc(var(--stage-h) * (1 + var(--steps) * var(--step))); }
   .js .story-anchor { position: absolute; top: calc(var(--stage-h) * var(--step) * .3); }
   .js .story-stage { display: flex; flex-direction: column; }
-  .js .story-media { flex: none; height: min(100vw, 50svh); }
+  .js .story-media { flex: none; height: min(100vw, 46svh); }
   .js .story-text {
     display: flex;
     flex-direction: column;
@@ -628,7 +636,7 @@ html:not(.js) .story-step { margin-top: 32px; }
     /* dole místo pro lištu Zavolat */
     padding: 20px var(--gutter) 88px;
   }
-  .js .story-steps { flex: 1; margin-top: 20px; }
+  .js .story-steps { flex: 1; }
   .js .story-step:first-child { opacity: 1; }
   .story-step h3 { font-size: clamp(1.875rem, 8vw, 2.5rem); }
   .story-step p { margin-top: 12px; font-size: 1.0625rem; }

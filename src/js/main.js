@@ -18,8 +18,8 @@ nav.addEventListener('click', (e) => {
 });
 
 // Úvod a postup: kolo projde celou dílnou. Snímky AI videa se kreslí na canvas podle
-// scrollu a k tomu vyjíždějí popisky kroků. Pohyb řídí jen scroll návštěvníka; při
-// omezení animací popisky jen prolínají a fotka se nepřibližuje.
+// scrollu a popisky kroků k tomu projíždějí okénkem jako pás. Pohyb řídí jen scroll
+// návštěvníka; při omezení animací jede pás rovnoměrně se scrollem a fotka se nepřibližuje.
 const story = document.querySelector('.story');
 const stage = story.querySelector('.story-stage');
 const media = story.querySelector('.story-media');
@@ -28,6 +28,7 @@ const ctx = canvas.getContext('2d');
 const heroCopy = document.querySelector('.hero-copy');
 const header = document.querySelector('.site-header');
 const storyHead = [story.querySelector('.story-title'), story.querySelector('.story-bars')];
+const stepsBox = story.querySelector('.story-steps');
 const steps = [...story.querySelectorAll('.story-step')];
 const bars = [...story.querySelectorAll('.story-bars b')];
 const wide = window.matchMedia('(min-width: 861px)');
@@ -44,7 +45,6 @@ if (keys.length !== steps.length + 1) {
 
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 const lerp = (a, b, t) => a + (b - a) * t;
-const easeOut = (t) => 1 - (1 - t) ** 3;
 const easeInOut = (t) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
 
 let W = 0;
@@ -52,6 +52,7 @@ let H = 0;
 let dpr = 1;
 let intro = 0;
 let stepLen = 1;
+let slot = 0;
 let y = null;
 let running = false;
 let last = 0;
@@ -66,6 +67,7 @@ const measure = () => {
   const css = getComputedStyle(story);
   intro = parseFloat(css.getPropertyValue('--intro')) * H;
   stepLen = parseFloat(css.getPropertyValue('--step')) * H;
+  slot = stepsBox.clientHeight;
   drawn = '';
 };
 
@@ -78,10 +80,18 @@ const nearest = (i) => {
   return -1;
 };
 
-// video běží uprostřed kroku, na krajích se drží, než se vymění popisek
+// video běží v jednom kuse, každý krok má svůj úsek
 const frameAt = (s) => {
   const i = clamp(Math.floor(s), 0, steps.length - 1);
-  return lerp(keys[i], keys[i + 1], easeInOut(clamp((s - i - 0.15) / 0.7)));
+  return lerp(keys[i], keys[i + 1], clamp(s - i));
+};
+
+// pás s popisky u každého kroku zpomalí, aby se dal přečíst, mezi kroky zrychlí,
+// ale nikdy nezastaví
+const dwell = (u) => {
+  const i = Math.floor(u);
+  const t = u - i;
+  return i + t - (0.85 / (2 * Math.PI)) * Math.sin(2 * Math.PI * t);
 };
 
 const draw = (s, left) => {
@@ -90,7 +100,7 @@ const draw = (s, left) => {
   if (i < 0) return;
   // mezi sousedními snímky se prolíná, aby scroll běžel plynule
   const j = i === Math.floor(f) && frames[i + 1] ? i + 1 : -1;
-  const t = j < 0 ? 0 : Math.round((f - i) * 16) / 16;
+  const t = j < 0 ? 0 : Math.round((f - i) * 32) / 32;
   const zoom = calm.matches ? 1 : 1 + 0.04 * clamp(s / steps.length);
   const key = `${i}:${t}:${Math.round(left)}:${zoom.toFixed(3)}`;
   if (key === drawn) return;
@@ -129,29 +139,14 @@ const render = (pos) => {
     storyHead.forEach((el) => { el.style.opacity = ''; });
   }
 
-  // popisek vyjede zespodu, chvíli zůstane a odjede nahoru; další přijede, až když
-  // předchozí zmizí, aby se nadpisy nepřekrývaly
+  // popisek je uprostřed okénka v polovině svého kroku; na desktopu první přijede zespodu,
+  // zatímco úvodní text odjíždí, na mobilu je vidět hned
+  const u = s - 0.5;
+  const at = clamp(calm.matches ? u : dwell(u), wide.matches ? -1 : 0, steps.length - 1);
   steps.forEach((el, i) => {
-    const t = s - i;
-    const alwaysIn = i === 0 && !wide.matches;
-    const stays = i === steps.length - 1;
-    // první popisek přijede už ve chvíli, kdy úvodní text odjíždí
-    const from = i === 0 ? -0.3 : 0;
-    let o = 1;
-    let shift = 0;
-    if (!alwaysIn && t < from + 0.2) {
-      const k = easeOut(clamp((t - from) / 0.2));
-      o = k;
-      shift = (1 - k) * 48;
-    }
-    if (!stays && t > 0.8) {
-      const k = easeOut(clamp((t - 0.8) / 0.2));
-      o = 1 - k;
-      shift = -k * 48;
-    }
-    el.style.opacity = String(o);
-    el.style.transform = calm.matches || !shift ? '' : `translate3d(0, ${shift.toFixed(1)}px, 0)`;
-    bars[i].style.transform = `scaleX(${clamp(t).toFixed(3)})`;
+    el.style.transform = `translate3d(0, ${((i - at) * slot).toFixed(1)}px, 0)`;
+    el.style.opacity = '1';
+    bars[i].style.transform = `scaleX(${clamp(s - i).toFixed(3)})`;
   });
 
   draw(s, left);
@@ -162,7 +157,7 @@ const tick = (now) => {
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
   const target = header.offsetHeight - story.getBoundingClientRect().top;
-  y = y === null ? target : y + (target - y) * (1 - Math.exp(-dt * 12));
+  y = y === null ? target : y + (target - y) * (1 - Math.exp(-dt * 10));
   if (Math.abs(target - y) < 0.5) y = target;
   render(y);
   if (y !== target) requestAnimationFrame(tick);
