@@ -243,6 +243,13 @@ h3 {
   object-fit: cover;
 }
 .compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+.compare-spray {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 .compare-handle {
   position: absolute;
   top: 0; bottom: 0;
