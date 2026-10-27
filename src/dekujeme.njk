@@ -1,0 +1,45 @@
+---
+permalink: /dekujeme/index.html
+---
+{%- from "icons.njk" import ui -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poptávka odeslána | {{ site.name }}</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,100..900;1,50..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Sem formulář poptávky přesměruje po odeslání (Netlify Forms, atribut action) -->
+<header class="site-header is-scrolled">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="{{ site.name }}, úvod">
+      <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="640" height="412">
+    </a>
+    <a class="btn btn-pink btn-sm" href="tel:{{ tel }}"><span>{{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+  </div>
+</header>
+
+<main class="thanks">
+  <div class="wrap">
+    <h1 class="display steel">Poptávka dorazila</h1>
+    <p class="lead">Děkujeme. Projdeme fotky a ozveme se vám s cenou a termínem. Když spěcháte, zavolejte nám.</p>
+    <div class="actions">
+      <a class="btn btn-pink" href="tel:{{ tel }}"><span>Zavolat {{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+      <a class="btn btn-steel" href="/"><span>Zpět na web</span></a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

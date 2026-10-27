@@ -201,7 +201,7 @@ permalink: /index.html
         </div>
       </div>
 
-      <form class="form" data-reveal name="poptavka" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+      <form class="form" data-reveal name="poptavka" method="POST" action="/dekujeme/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
         <input type="hidden" name="form-name" value="poptavka">
         <p class="hp"><label>Nevyplňujte <input name="bot-field"></label></p>
 
@@ -228,9 +228,11 @@ permalink: /index.html
         </div>
         <div class="field">
           <label for="f-files">Fotky dílů</label>
-          <input id="f-files" name="fotky" type="file" accept="image/*" multiple>
+          <input id="f-files" name="fotky" type="file" accept="image/*" multiple aria-describedby="f-files-note">
+          <p id="f-files-note" class="field-note">Fotky z mobilu stačí, dohromady do 8 MB. Víc jich pošlete e-mailem.</p>
         </div>
         <button class="btn btn-pink" type="submit"><span>Odeslat poptávku</span><span class="btn-ico">{{ ui("send") }}</span></button>
+        <p class="form-privacy">Údaje z formuláře použijeme jen k vyřízení vaší poptávky.</p>
       </form>
     </div>
   </section>
@@ -238,10 +240,44 @@ permalink: /index.html
 </main>
 
 <footer class="site-footer">
-  <div class="wrap footer-inner">
-    <img eleventy:ignore src="/img/logo.jpg" alt="" width="160" height="103" loading="lazy">
-    <p>{{ site.name }}, prášková lakovna<br>{{ site.street }}, {{ site.city }}{% if site.ico %}<br>IČO: {{ site.ico }}{% endif %}</p>
-    <p class="footer-small">© {% year %} {{ site.name }}</p>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="160" height="103" loading="lazy">
+        <p>Prášková lakovna v Malé Čermné. Kola, díly aut a motorek, konstrukce i kusové výrobky.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Kontakt</h2>
+        <ul>
+          <li><a class="footer-phone" href="tel:{{ tel }}">{{ site.phone }}</a></li>
+          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          {%- if site.hours %}
+          <li>{{ site.hours }}</li>
+          {%- endif %}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Kde nás najdete</h2>
+        <ul>
+          <li>{{ site.street }}<br>{{ site.city }}</li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query={{ (site.street + ', ' + site.city) | urlencode }}" target="_blank" rel="noopener">Navigovat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Na webu</h2>
+        <ul>
+          <li><a href="#postup">Jak to probíhá</a></li>
+          <li><a href="#sluzby">Služby</a></li>
+          <li><a href="#realizace">Realizace</a></li>
+          <li><a href="{{ fbUrl }}" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="{{ igUrl }}" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {% year %} {{ site.name }}{% if site.ico %}, IČO {{ site.ico }}{% endif %}</p>
+      <p><a href="#obsah">Zpět nahoru</a></p>
+    </div>
   </div>
 </footer>
 
