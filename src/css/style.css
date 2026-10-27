@@ -194,14 +194,20 @@ h3 {
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nav-toggle-bars::after { transform: translateY(-7px) rotate(-45deg); }
 
-/* Úvod – text vlevo, srovnání před/po vpravo až k okraji, dělené šikmým řezem
+/* Úvod – text vlevo, nástřik kola vpravo až k okraji, dělený šikmým řezem
    jako panely na letáku (a úvod webu Rejman, který se klientovi líbil) */
 
+.hero-pin { --hero-h: min(calc(100svh - var(--header)), 860px); }
 .hero {
   --split: 54vw;
   display: grid;
   grid-template-columns: var(--split) minmax(0, 1fr);
-  min-height: min(calc(100svh - var(--header)), 860px);
+  min-height: var(--hero-h);
+}
+/* úvod se při scrollu na chvíli zastaví, než se kolo nastříká */
+@media (min-width: 861px) {
+  .hero-pin.is-scrub { height: calc(var(--hero-h) + 70svh); }
+  .hero-pin.is-scrub .hero { position: sticky; top: var(--header); }
 }
 .hero-copy {
   align-self: center;
@@ -222,76 +228,34 @@ h3 {
 }
 .actions { display: flex; flex-wrap: wrap; gap: 14px 22px; margin-top: 36px; }
 
-/* Před / po */
+/* Nástřik – snímky videa se kreslí na canvas podle scrollu (main.js) */
 
-.compare {
-  --pos: 50%;
+.coat {
   position: relative;
   min-height: 420px;
   overflow: hidden;
   /* stejný sklon jako tlačítka (12°) */
   clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
-  touch-action: pan-y;
-  user-select: none;
-  cursor: ew-resize;
+  background: var(--panel);
 }
-.compare img {
+.coat img,
+.coat-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
-.compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
-.compare-spray {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.compare-handle {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: var(--pos);
-  width: 3px;
-  margin-left: -1.5px;
-  background: var(--pink);
-  pointer-events: none;
-}
-.compare-handle::after {
-  content: "";
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 44px; height: 44px;
-  transform: translate(-50%, -50%) skewX(-12deg);
-  background: var(--pink) no-repeat center / 26px
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-6 6 6 6M15 6l6 6-6 6'/%3E%3C/svg%3E");
-}
-.compare-tag {
+.coat img { object-fit: cover; }
+.coat-tag {
   position: absolute;
   bottom: 20px;
   padding: 2px 12px;
   background: rgba(0,0,0,.72);
   font-stretch: 85%;
   font-weight: 700;
-  pointer-events: none;
 }
-.compare-tag-before { left: 20px; }
-.compare-tag-after { right: 20px; }
-.compare-range {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: ew-resize;
-}
-.compare:has(.compare-range:focus-visible) .compare-handle::after {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
-}
+.coat-tag-before { left: 20px; }
+.coat-tag-after { right: 20px; opacity: 0; }
 
 /* Sekce */
 
@@ -600,8 +564,8 @@ h3 {
 
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { justify-self: stretch; width: auto; padding: 40px var(--gutter) 44px; }
-  .compare {
-    aspect-ratio: 654 / 640;
+  .coat {
+    aspect-ratio: 1;
     min-height: 0;
     clip-path: polygon(0 9%, 100% 0, 100% 100%, 0 100%);
   }

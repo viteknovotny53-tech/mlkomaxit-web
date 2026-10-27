@@ -4,6 +4,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/img/*.{jpg,png,svg}");
+  // snímky videa nástřiku v úvodu, už zmenšené
+  eleventyConfig.addPassthroughCopy("src/img/nastrik");
 
   // Fotky z CMS (i velké z mobilu) se při buildu zmenší a převedou do WebP
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {

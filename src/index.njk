@@ -66,7 +66,8 @@ permalink: /index.html
 
 <main id="obsah">
 
-  <!-- ÚVOD -->
+  <!-- ÚVOD: při scrollu se kolo nastříká (AI video ze skutečné fotky před renovací) -->
+  <div class="hero-pin">
   <section class="hero">
     <div class="hero-copy">
       <h1 class="display steel">{{ uvod.headline | cz }}</h1>
@@ -77,16 +78,14 @@ permalink: /index.html
       </div>
     </div>
 
-    <div class="compare" style="--pos: 50%">
-      <img class="compare-after" src="{{ uvod.after }}" alt="{{ uvod.afterAlt }}" sizes="(max-width: 860px) 100vw, 50vw" loading="eager" fetchpriority="high">
-      <img class="compare-before" src="{{ uvod.before }}" alt="{{ uvod.beforeAlt }}" sizes="(max-width: 860px) 100vw, 50vw" loading="eager">
-      <span class="compare-tag compare-tag-before" aria-hidden="true">Před</span>
-      <span class="compare-tag compare-tag-after" aria-hidden="true">Po</span>
-      <span class="compare-handle" aria-hidden="true"></span>
-      <label class="sr-only" for="compare-range">Posunout srovnání před a po</label>
-      <input id="compare-range" class="compare-range" type="range" min="0" max="100" value="50">
+    <div class="coat" data-frames="36">
+      <img src="/img/nastrik/f000.webp" alt="{{ uvod.videoAlt }}" width="760" height="760" fetchpriority="high" eleventy:ignore>
+      <canvas class="coat-canvas" aria-hidden="true"></canvas>
+      <span class="coat-tag coat-tag-before" aria-hidden="true">Před</span>
+      <span class="coat-tag coat-tag-after" aria-hidden="true">Po</span>
     </div>
   </section>
+  </div>
 
   <!-- SLUŽBY -->
   <section id="sluzby" class="section">
