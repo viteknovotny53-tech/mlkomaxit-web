@@ -1,38 +1,73 @@
 // M&L komaxit – první návrh
 
-// Mobilní menu
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+const wide = window.matchMedia('(min-width: 861px)');
+
+const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeInOut = (t) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
+
+// Úvodní text při načtení vyjede (CSS čeká na is-loaded)
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  document.documentElement.classList.add('is-loaded');
+}));
+
+// Lišta: po odjetí z úvodu ztmavne; na úvodu ještě nepodtrhává žádnou sekci
+const header = document.querySelector('.site-header');
+const markScrolled = () => {
+  header.classList.toggle('is-scrolled', window.scrollY > 24);
+  header.classList.toggle('is-top', window.scrollY < window.innerHeight * 0.4);
+};
+markScrolled();
+window.addEventListener('scroll', markScrolled, { passive: true });
+
+// Mobilní menu přes celou obrazovku
 const toggle = document.querySelector('.nav-toggle');
 const nav = document.getElementById('menu');
 
-toggle.addEventListener('click', () => {
-  const open = toggle.getAttribute('aria-expanded') === 'true';
-  toggle.setAttribute('aria-expanded', String(!open));
-  nav.classList.toggle('is-open', !open);
-});
-
+const setMenu = (open) => {
+  toggle.setAttribute('aria-expanded', String(open));
+  nav.classList.toggle('is-open', open);
+  document.documentElement.classList.toggle('menu-open', open);
+};
+toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
 nav.addEventListener('click', (e) => {
-  if (e.target.closest('a')) {
-    toggle.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('is-open');
-  }
+  if (e.target.closest('a')) setMenu(false);
 });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') setMenu(false);
+});
+wide.addEventListener('change', () => setMenu(false));
+
+// V menu zůstane podtržená sekce, kterou právě čtete
+const navLinks = [...nav.querySelectorAll('a[href^="#"]')];
+const sectionOf = (link) => {
+  const target = document.querySelector(link.getAttribute('href'));
+  return target && (target.closest('section') || target);
+};
+const linkBySection = new Map(navLinks.map((link) => [sectionOf(link), link]));
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    const link = linkBySection.get(entry.target);
+    if (link) link.toggleAttribute('aria-current', entry.isIntersecting);
+    if (link && entry.isIntersecting) link.setAttribute('aria-current', 'true');
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+linkBySection.forEach((_, section) => section && spy.observe(section));
 
 // Úvod a postup: kolo projde celou dílnou. Snímky AI videa se kreslí na canvas podle
-// scrollu a popisky kroků k tomu projíždějí okénkem jako pás. Pohyb řídí jen scroll
-// návštěvníka; při omezení animací jede pás rovnoměrně se scrollem a fotka se nepřibližuje.
+// scrollu; popisek kroku na jeho začátku rychle přiletí zespodu a pak stojí, dokud
+// nepřijde další. Na myši se kolo lehce natáčí za kurzorem.
 const story = document.querySelector('.story');
 const stage = story.querySelector('.story-stage');
 const media = story.querySelector('.story-media');
 const canvas = story.querySelector('.story-canvas');
 const ctx = canvas.getContext('2d');
 const heroCopy = document.querySelector('.hero-copy');
-const header = document.querySelector('.site-header');
 const storyHead = [story.querySelector('.story-title'), story.querySelector('.story-bars')];
-const stepsBox = story.querySelector('.story-steps');
 const steps = [...story.querySelectorAll('.story-step')];
 const bars = [...story.querySelectorAll('.story-bars b')];
-const wide = window.matchMedia('(min-width: 861px)');
-const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
 const count = Number(media.dataset.frames);
 const frames = new Array(count);
 
@@ -43,20 +78,17 @@ if (keys.length !== steps.length + 1) {
   keys = steps.map((_, i) => Math.round((i / steps.length) * (count - 1))).concat(count - 1);
 }
 
-const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
-const lerp = (a, b, t) => a + (b - a) * t;
-const easeInOut = (t) => (t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2);
-
 let W = 0;
 let H = 0;
 let dpr = 1;
 let intro = 0;
 let stepLen = 1;
-let slot = 0;
 let y = null;
 let running = false;
 let last = 0;
 let drawn = '';
+let active = null;
+const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
 
 const measure = () => {
   W = stage.clientWidth;
@@ -67,7 +99,6 @@ const measure = () => {
   const css = getComputedStyle(story);
   intro = parseFloat(css.getPropertyValue('--intro')) * H;
   stepLen = parseFloat(css.getPropertyValue('--step')) * H;
-  slot = stepsBox.clientHeight;
   drawn = '';
 };
 
@@ -86,14 +117,6 @@ const frameAt = (s) => {
   return lerp(keys[i], keys[i + 1], clamp(s - i));
 };
 
-// pás s popisky u každého kroku zpomalí, aby se dal přečíst, mezi kroky zrychlí,
-// ale nikdy nezastaví
-const dwell = (u) => {
-  const i = Math.floor(u);
-  const t = u - i;
-  return i + t - (0.85 / (2 * Math.PI)) * Math.sin(2 * Math.PI * t);
-};
-
 const draw = (s, left) => {
   const f = frameAt(s);
   const i = nearest(Math.floor(f));
@@ -102,15 +125,18 @@ const draw = (s, left) => {
   const j = i === Math.floor(f) && frames[i + 1] ? i + 1 : -1;
   const t = j < 0 ? 0 : Math.round((f - i) * 32) / 32;
   const zoom = calm.matches ? 1 : 1 + 0.04 * clamp(s / steps.length);
-  const key = `${i}:${t}:${Math.round(left)}:${zoom.toFixed(3)}`;
+  const key = `${i}:${t}:${Math.round(left)}:${zoom.toFixed(3)}:${tilt.x.toFixed(1)}:${tilt.y.toFixed(1)}`;
   if (key === drawn) return;
   drawn = key;
 
-  // fotka vyplní výřez od levého okraje fotky doprava (jako object-fit: cover)
+  // fotka vyplní výřez od levého okraje fotky doprava (jako object-fit: cover);
+  // při natočení za kurzorem se o kousek zvětší, aby u okraje nevznikla mezera
   const x0 = left * dpr;
-  const size = Math.max(canvas.height, canvas.width - x0) * zoom;
-  const x = x0 + (canvas.width - x0 - size) / 2;
-  const top = (canvas.height - size) / 2;
+  const base = Math.max(canvas.height, canvas.width - x0);
+  const shift = Math.max(Math.abs(tilt.x), Math.abs(tilt.y)) * dpr;
+  const size = base * zoom + shift * 2;
+  const x = x0 + (canvas.width - x0 - size) / 2 + tilt.x * dpr;
+  const top = (canvas.height - size) / 2 + tilt.y * dpr;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalAlpha = 1;
   ctx.drawImage(frames[i], x, top, size, size);
@@ -118,6 +144,19 @@ const draw = (s, left) => {
     ctx.globalAlpha = t;
     ctx.drawImage(frames[j], x, top, size, size);
   }
+};
+
+// popisek kroku: aktivní stojí, předchozí odletěly nahoru, další čekají dole (CSS přechody)
+const setActive = (a) => {
+  if (a === active) return;
+  const first = active === null;
+  if (first) story.classList.add('no-anim');
+  active = a;
+  steps.forEach((el, i) => {
+    el.classList.toggle('is-active', i === a);
+    el.classList.toggle('is-next', i > a);
+  });
+  if (first) requestAnimationFrame(() => requestAnimationFrame(() => story.classList.remove('no-anim')));
 };
 
 const render = (pos) => {
@@ -139,28 +178,31 @@ const render = (pos) => {
     storyHead.forEach((el) => { el.style.opacity = ''; });
   }
 
-  // popisek je uprostřed okénka v polovině svého kroku; na desktopu první přijede zespodu,
-  // zatímco úvodní text odjíždí, na mobilu je vidět hned
-  const u = s - 0.5;
-  const at = clamp(calm.matches ? u : dwell(u), wide.matches ? -1 : 0, steps.length - 1);
-  steps.forEach((el, i) => {
-    el.style.transform = `translate3d(0, ${((i - at) * slot).toFixed(1)}px, 0)`;
-    el.style.opacity = '1';
-    bars[i].style.transform = `scaleX(${clamp(s - i).toFixed(3)})`;
-  });
+  // na desktopu první popisek přiletí, až úvodní text skoro zmizí; na mobilu je hned
+  setActive(wide.matches && s < -0.2 ? -1 : clamp(Math.floor(s), 0, steps.length - 1));
+  bars.forEach((bar, i) => { bar.style.transform = `scaleX(${clamp(s - i).toFixed(3)})`; });
 
   draw(s, left);
 };
 
-// vyhlazení, aby kolečko myši neposouvalo video po skocích
+// vyhlazení, aby kolečko myši neposouvalo video po skocích; natočení za kurzorem
+// dojíždí měkčeji
 const tick = (now) => {
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
-  const target = header.offsetHeight - story.getBoundingClientRect().top;
+  const target = -story.getBoundingClientRect().top;
   y = y === null ? target : y + (target - y) * (1 - Math.exp(-dt * 10));
   if (Math.abs(target - y) < 0.5) y = target;
+  const k = 1 - Math.exp(-dt * 5);
+  tilt.x += (tilt.tx - tilt.x) * k;
+  tilt.y += (tilt.ty - tilt.y) * k;
+  const settled = Math.abs(tilt.tx - tilt.x) < 0.05 && Math.abs(tilt.ty - tilt.y) < 0.05;
+  if (settled) {
+    tilt.x = tilt.tx;
+    tilt.y = tilt.ty;
+  }
   render(y);
-  if (y !== target) requestAnimationFrame(tick);
+  if (y !== target || !settled) requestAnimationFrame(tick);
   else running = false;
 };
 
@@ -178,6 +220,20 @@ new ResizeObserver(() => {
 
 window.addEventListener('scroll', kick, { passive: true });
 calm.addEventListener('change', () => { drawn = ''; kick(); });
+
+window.addEventListener('pointermove', (e) => {
+  if (!finePointer.matches || calm.matches || !wide.matches) return;
+  const r = story.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > window.innerHeight) return;
+  tilt.tx = (e.clientX / window.innerWidth - 0.5) * -18;
+  tilt.ty = (e.clientY / window.innerHeight - 0.5) * -12;
+  kick();
+});
+document.addEventListener('pointerleave', () => {
+  tilt.tx = 0;
+  tilt.ty = 0;
+  kick();
+});
 
 // snímky se stahují až po načtení stránky: nejdřív začátky kroků a konec, pak po osmi
 // a postupně se doplňují
@@ -205,6 +261,75 @@ const startLoading = () => {
 };
 if (document.readyState === 'complete') startLoading();
 else window.addEventListener('load', startLoading);
+
+// Reakce na kurzor (jen myš, při omezení animací nic neuhýbá)
+if (finePointer.matches) {
+  // tlačítka se lehce přitáhnou ke kurzoru a při stisku se zmáčknou
+  document.querySelectorAll('.btn').forEach((btn) => {
+    let mx = 0;
+    let my = 0;
+    let press = 1;
+    const apply = () => {
+      btn.style.transform = `translate3d(${mx.toFixed(1)}px, ${my.toFixed(1)}px, 0) scale(${press})`;
+    };
+    btn.addEventListener('pointermove', (e) => {
+      if (calm.matches) return;
+      const r = btn.getBoundingClientRect();
+      mx = ((e.clientX - r.left) / r.width - 0.5) * 10;
+      my = ((e.clientY - r.top) / r.height - 0.5) * 8;
+      apply();
+    });
+    btn.addEventListener('pointerdown', () => { press = 0.97; apply(); });
+    btn.addEventListener('pointerup', () => { press = 1; apply(); });
+    btn.addEventListener('pointerleave', () => {
+      mx = 0;
+      my = 0;
+      press = 1;
+      btn.style.transform = '';
+    });
+  });
+
+  // kovový přechod v hlavním nadpisu se leskne podle výšky kurzoru
+  const heroTitle = document.querySelector('.hero h1');
+  document.querySelector('.hero').addEventListener('pointermove', (e) => {
+    if (calm.matches) return;
+    heroTitle.style.backgroundPosition = `50% ${(30 + (e.clientY / window.innerHeight) * 40).toFixed(1)}%`;
+  });
+
+  // u služeb jde za kurzorem růžové světlo
+  document.querySelectorAll('.services li').forEach((li) => {
+    li.addEventListener('pointermove', (e) => {
+      const r = li.getBoundingClientRect();
+      li.style.setProperty('--mx', `${Math.round(e.clientX - r.left + 16)}px`);
+      li.style.setProperty('--my', `${Math.round(e.clientY - r.top)}px`);
+    });
+  });
+
+  // oblak prášku v pruhu s výzvou uhne proti kurzoru
+  const band = document.querySelector('.cta-band');
+  band.addEventListener('pointermove', (e) => {
+    if (calm.matches) return;
+    const r = band.getBoundingClientRect();
+    band.style.setProperty('--cx', `${(((e.clientX - r.left) / r.width - 0.5) * -28).toFixed(1)}px`);
+    band.style.setProperty('--cy', `${(((e.clientY - r.top) / r.height - 0.5) * -18).toFixed(1)}px`);
+  });
+  band.addEventListener('pointerleave', () => {
+    band.style.removeProperty('--cx');
+    band.style.removeProperty('--cy');
+  });
+}
+
+// Obsah při scrollu jemně vyjede zespodu; co se objeví naráz, jede postupně po sobě
+const reveal = new IntersectionObserver((entries) => {
+  let n = 0;
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.style.setProperty('--d', `${n++ * 70}ms`);
+    entry.target.classList.add('is-in');
+    reveal.unobserve(entry.target);
+  });
+}, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+document.querySelectorAll('[data-reveal]').forEach((el) => reveal.observe(el));
 
 // Lightbox pro realizace
 const lightbox = document.querySelector('.lightbox');
