@@ -2,6 +2,14 @@
 
 Statický web (Eleventy) na Netlify, obsah si klient upravuje přes Pages CMS.
 
+- **Web (návrh):** https://mlkomaxit-navrh.netlify.app
+- **Netlify:** https://app.netlify.com/projects/mlkomaxit-navrh (tým „vitek project“)
+- **Administrace:** https://app.pagescms.org/viteknovotny53-tech/mlkomaxit-web/main
+- **Repozitář:** https://github.com/viteknovotny53-tech/mlkomaxit-web (soukromý)
+
+Netlify i Pages CMS jsou propojené, každý push nebo uložení v CMS do `main` web
+do minuty přestaví. Klient zatím do Pages CMS pozvaný není.
+
 ```
 src/_data/*.json    obsah webu – tohle edituje klient přes CMS
 src/img/uploads/    fotky nahrané přes CMS (originály, zmenšují se při buildu)
@@ -20,24 +28,26 @@ npm start          # http://localhost:5179, živý náhled
 npm run build      # výstup do _site/
 ```
 
-## Nasazení (jednorázově)
+## Nasazení
 
-1. **GitHub** – vytvoř repozitář (klidně soukromý) a nahraj do něj obsah složky `web/`
-   (ne celý projekt s podklady). `node_modules`, `_site` a `.cache` hlídá `.gitignore`.
-2. **Netlify** – Add new site → Import from Git → vyber repozitář. Build command a publish
-   složku si Netlify načte z `netlify.toml`, nic nevyplňuješ.
-3. **Formulář** – Netlify najde formulář `poptavka` sám při prvním deployi.
-   V Site configuration → Forms → Form notifications přidej e-mail klienta
-   (ml.komaxit@seznam.cz), ať mu poptávky chodí rovnou.
-4. **Doména** – Domain management → přidat doménu klienta, DNS u registrátora nasměrovat na Netlify.
+Hotovo: repozitář je naimportovaný do Netlify, build command a publish složku Netlify
+čte z `netlify.toml`. Detekce formulářů (Project configuration → Forms) je zapnutá,
+u nových projektů je ve výchozím stavu vypnutá a formulář by bez ní nic neodeslal.
+
+Zbývá před spuštěním:
+
+1. **Notifikace formuláře** – Forms → Form submission notifications → Add notification →
+   e-mail klienta (ml.komaxit@seznam.cz), ať mu poptávky chodí rovnou.
+2. **Doména** – Domain management → přidat doménu klienta, DNS u registrátora nasměrovat na Netlify.
 
 ## Administrace pro klienta (Pages CMS)
 
+Pages CMS GitHub App je nainstalovaná jen k tomuto repozitáři. Až bude návrh schválený:
+
 1. Přihlas se na https://app.pagescms.org přes svůj GitHub účet.
-2. Nainstaluj Pages CMS GitHub App a povol jí přístup k repozitáři webu.
-3. Otevři repozitář v Pages CMS → Collaborators → pozvi e-mail klienta.
+2. Otevři repozitář v Pages CMS → Collaborators → pozvi e-mail klienta.
    Klient **nepotřebuje GitHub účet**, přihlašuje se odkazem z e-mailu.
-4. Pošli klientovi `NAVOD-PRO-KLIENTA.md`.
+3. Pošli klientovi `NAVOD-PRO-KLIENTA.md`.
 
 Klient smí upravovat obsah a fotky. Konfiguraci (`.pages.yml`) a správu přístupů měnit nemůže –
 to zůstává tobě.
