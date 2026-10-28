@@ -1,31 +1,31 @@
 {
   "heading": "Kompletní péče o díly na jednom místě",
-  "intro": "Všechno děláme sami pod jednou střechou, od odlakování přes opravy a lakování až po svoz hotového dílu.",
+  "intro": "Nezáleží na tom, jestli potřebujete nalakovat jeden kus, nebo hledáte někoho pro pravidelnou spolupráci. Ke každé zakázce přistupujeme individuálně a záleží nám na tom, aby výsledek stál za to.",
   "items": [
     {
-      "title": "Práškové lakování kovových dílů",
-      "text": "Odolný povrch, který vydrží roky. Klasické odstíny, metalízy i efektové barvy jako chameleon.",
+      "title": "Práškové lakování kovových výrobků",
+      "text": "Od drobných dílů až po větší konstrukce. Staré věci i nové výrobky.",
       "icon": "lakovani"
     },
     {
-      "title": "Chemické odlakování starých nátěrů",
-      "text": "Starou barvu odstraníme až na původní povrch, aniž bychom díl poškodili.",
-      "icon": "odlakovani"
-    },
-    {
-      "title": "Pískování a tryskání povrchů",
-      "text": "Očistíme rez a nečistoty a povrch připravíme tak, aby nový lak dobře držel.",
-      "icon": "tryskani"
-    },
-    {
-      "title": "Renovace a opravy kovových dílů",
-      "text": "Rovnání a broušení i u dílů, které už vypadají na šrot.",
+      "title": "Renovace a obnova starších dílů",
+      "text": "Rádi vracíme život starším věcem, i těm, které už vypadají na šrot.",
       "icon": "renovace"
     },
     {
-      "title": "Svařování a opravy poškozených dílů",
-      "text": "Prasklé nebo poškozené díly opravíme ještě před lakováním.",
-      "icon": "svarovani"
+      "title": "Příprava povrchu před lakováním",
+      "text": "Tryskání, odlakování a broušení, aby nový lak dobře držel.",
+      "icon": "tryskani"
+    },
+    {
+      "title": "Kusové zakázky i menší série",
+      "text": "Jeden kus, nebo pravidelná spolupráce. Obojí rádi uděláme.",
+      "icon": "serie"
+    },
+    {
+      "title": "Osobní přístup",
+      "text": "Domluvíme se podle vašich potřeb a s každou zakázkou si dáme práci.",
+      "icon": "pristup"
     },
     {
       "title": "Svoz a dovoz zakázek",
@@ -40,5 +40,5 @@
     "Konstrukce, zábradlí, brány",
     "Nábytek a dekorace z kovu"
   ],
-  "fitsNote": "Kusové i větší zakázky, díly do délky 2,5 m."
+  "fitsNote": "Díly do délky 2,5 m, šířky 1 m a hmotnosti 100 kg."
 }

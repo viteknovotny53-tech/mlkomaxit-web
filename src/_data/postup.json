@@ -1,10 +1,25 @@
 {
   "intro": "Od zašlého dílu po hotový povrch. Cenu i termín znáte předem.",
   "steps": [
-    { "title": "Převezmeme díl", "text": "Klidně i takhle zašlý. Pošlete fotky a ozveme se s cenou a termínem. Díl přivezete, nebo si pro něj přijedeme." },
-    { "title": "Odlakujeme a otryskáme", "text": "Starý nátěr i rez jdou dolů až na čistý kov. Co je prasklé nebo ohnuté, opravíme." },
-    { "title": "Nastříkáme prášek", "text": "Prášek nanášíme elektrostaticky, takže drží i na hranách. Odstín vybíráte vy, klidně metalízu nebo chameleon." },
-    { "title": "Vypálíme v peci", "text": "V peci se prášek slije v tvrdý a odolný povrch, který vydrží roky." },
-    { "title": "Předáme hotové", "text": "Vyzvednete si díl u nás v Malé Čermné, nebo vám ho dovezeme zpátky." }
+    {
+      "title": "Převezmeme díl",
+      "text": "Klidně i takhle zašlý. Pošlete fotky a ozveme se s cenou a termínem. Díl přivezete, nebo si pro něj přijedeme."
+    },
+    {
+      "title": "Odlakujeme a otryskáme",
+      "text": "Tryskáním, odlakováním a broušením dostaneme starý nátěr i rez dolů až na čistý kov."
+    },
+    {
+      "title": "Nastříkáme prášek",
+      "text": "Odstín vybíráte vy. Lakujeme drobné díly i větší konstrukce, staré věci i nové výrobky."
+    },
+    {
+      "title": "Vypálíme v peci",
+      "text": "V peci se prášek slije v tvrdý a odolný povrch, který vydrží roky."
+    },
+    {
+      "title": "Předáme hotové",
+      "text": "Vyzvednete si díl u nás v Malé Čermné, nebo vám ho dovezeme zpátky."
+    }
   ]
 }

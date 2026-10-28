@@ -639,6 +639,7 @@ html:not(.js) .story-step { margin-top: 32px; }
   text-decoration: none;
 }
 .phone:hover { color: #ff86bd; }
+.phone-person { margin-top: 6px; color: var(--text); font-weight: 600; }
 
 .contact-list {
   display: grid;

@@ -78,6 +78,10 @@ content:
                   label: Kolo
                 - name: svarovani
                   label: Klíč (opravy)
+                - name: serie
+                  label: Vrstvy (série)
+                - name: pristup
+                  label: Člověk (osobní přístup)
                 - name: svoz
                   label: Nákladní auto (svoz)
       - name: fitsHeading
@@ -171,6 +175,9 @@ content:
     fields:
       - name: name
         label: Název firmy
+        type: string
+      - name: person
+        label: Kontaktní osoba
         type: string
       - name: phone
         label: Telefon

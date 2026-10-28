@@ -181,6 +181,9 @@ permalink: /index.html
         <p>{{ site.contactText | cz }}</p>
 
         <a class="phone" href="tel:{{ tel }}">{{ site.phone }}</a>
+        {%- if site.person %}
+        <p class="phone-person">{{ site.person }}</p>
+        {%- endif %}
 
         <dl class="contact-list">
           <dt>E-mail</dt>
@@ -257,6 +260,9 @@ permalink: /index.html
       <div class="footer-col">
         <h2>Kontakt</h2>
         <ul>
+          {%- if site.person %}
+          <li>{{ site.person }}</li>
+          {%- endif %}
           <li><a class="footer-phone" href="tel:{{ tel }}">{{ site.phone }}</a></li>
           <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
           {%- if site.hours %}
