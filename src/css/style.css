@@ -369,18 +369,7 @@ h3 {
    zvětšení obstará prohlížeč */
 .story-spill { opacity: 0; }
 .story-poster { object-fit: cover; }
-.story-ai {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  z-index: 3;
-  margin: 0;
-  padding: 4px 8px;
-  background: rgb(0 0 0 / .65);
-  color: var(--muted);
-  font-size: .75rem;
-  line-height: 1.3;
-}
+.story-ai { margin: 10px 0 0; color: var(--muted); font-size: .8125rem; }
 
 .story-title {
   color: var(--cyan);
@@ -498,7 +487,8 @@ html:not(.js) .story-step { margin-top: 32px; }
     justify-content: center;
   }
   .js .story-title,
-  .js .story-bars { opacity: 0; }
+  .js .story-bars,
+  .js .story-ai { opacity: 0; }
   .js .story-steps { height: 17rem; margin-top: clamp(4px, 1.5svh, 16px); }
 }
 

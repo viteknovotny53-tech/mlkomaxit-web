@@ -68,7 +68,7 @@ const spillCanvas = story.querySelector('.story-spill');
 const spillCtx = spillCanvas.getContext('2d');
 const heroCopy = document.querySelector('.hero-copy');
 const storyText = story.querySelector('.story-text');
-const storyHead = [story.querySelector('.story-title'), story.querySelector('.story-bars')];
+const storyHead = [story.querySelector('.story-title'), story.querySelector('.story-bars'), story.querySelector('.story-ai')];
 const steps = [...story.querySelectorAll('.story-step')];
 const bars = [...story.querySelectorAll('.story-bars b')];
 // na mobilu se stahuje lehčí sada: poloviční počet snímků v menším rozlišení

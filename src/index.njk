@@ -90,14 +90,14 @@ permalink: /index.html
         <img class="story-poster" src="/img/proces/f000.webp" alt="{{ uvod.videoAlt }}" width="680" height="680" fetchpriority="high" eleventy:ignore>
         <canvas class="story-spill" aria-hidden="true"></canvas>
         <canvas class="story-canvas" aria-hidden="true"></canvas>
-        {#- označení podle AI Actu (čl. 50): realistická animace je vygenerovaná #}
-        <p class="story-ai">Ilustrační animace vytvořená pomocí AI</p>
       </div>
       <div class="story-text">
         <h2 id="postup-nadpis" class="story-title">Jak to probíhá</h2>
         <div class="story-bars" aria-hidden="true">
           {%- set last = (postup.steps | length) - 1 %}{%- for step in postup.steps %}<i style="--k: {{ loop.index0 / last if last else 0 }}"><b></b></i>{% endfor -%}
         </div>
+        {#- označení podle AI Actu (čl. 50): realistická animace je vygenerovaná; v textu ho nic nepřekryje #}
+        <p class="story-ai">Ilustrační animace vytvořená pomocí AI</p>
         <ol class="story-steps">
           {%- for step in postup.steps %}
           <li class="story-step">
