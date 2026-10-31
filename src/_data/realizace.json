@@ -3,51 +3,55 @@
   "items": [
     {
       "image": "/img/uploads/kolo-po.jpg",
-      "alt": "Hliníkové kolo z úvodu po renovaci v černém lesklém laku, opřené o paletu",
       "title": "Kolo z úvodu",
-      "text": "Takhle vypadá po renovaci doopravdy. Animace nahoře je vytvořená pomocí AI a postup jen ilustruje."
+      "text": "Takhle vypadá po renovaci doopravdy. Animace nahoře je vytvořená pomocí AI a postup jen ilustruje.",
+      "alt": "Hliníkové kolo z úvodu po renovaci v černém lesklém laku, opřené o paletu"
     },
     {
       "image": "/img/uploads/mazda-viko-2.jpg",
-      "alt": "Víko ventilů Mazda DOHC 16V ve žlutém lesklém laku",
       "title": "Mazda DOHC 16V",
-      "text": "Víko ventilů zpátky v ikonické žluté."
+      "text": "Víko ventilů zpátky v ikonické žluté.",
+      "alt": "Víko ventilů Mazda DOHC 16V ve žlutém lesklém laku"
     },
     {
       "image": "/img/uploads/kola-cerna-sada.jpg",
-      "alt": "Sada čtyř kol v černém lesklém laku",
       "title": "Ze šrotu zpátky na silnici",
-      "text": "Celá sada po renovaci a dvou vrstvách laku."
+      "text": "Celá sada po renovaci a dvou vrstvách laku.",
+      "alt": "Sada čtyř kol v černém lesklém laku"
     },
     {
       "image": "/img/uploads/kola-lestene.jpg",
-      "alt": "Stříbrné pětipaprskové kolo s leštěným límcem",
       "title": "Původní vzhled",
-      "text": "Renovace disků s leštěným límcem."
+      "text": "Renovace disků s leštěným límcem.",
+      "alt": "Stříbrné pětipaprskové kolo s leštěným límcem"
     },
     {
       "image": "/img/uploads/dily-zelene.jpg",
-      "alt": "Autodíly nalakované zelenou barvou",
       "title": "Autodíly v zelené",
-      "text": "Od zašlých dílů po finální povrch."
+      "text": "Od zašlých dílů po finální povrch.",
+      "alt": "Autodíly nalakované zelenou barvou"
     },
     {
       "image": "/img/uploads/kola-chameleon.jpg",
-      "alt": "Sada kol Škoda ve fialovém chameleonu s leštěným límcem",
       "title": "Fialový chameleon",
-      "text": "Alu kola v metalickém chameleonu s kontrastním leštěným límcem."
+      "text": "Alu kola v metalickém chameleonu s kontrastním leštěným límcem.",
+      "alt": "Sada kol Škoda ve fialovém chameleonu s leštěným límcem"
     },
     {
       "image": "/img/uploads/kolo-mramor.jpg",
-      "alt": "Plechový disk v mramorovém efektu fialové, modré a růžové",
       "title": "Když klasika nestačí",
-      "text": "Plechový disk v mramorovém efektu."
+      "text": "Plechový disk v mramorovém efektu.",
+      "alt": "Plechový disk v mramorovém efektu fialové, modré a růžové"
     },
     {
       "image": "/img/uploads/stolek-cerny.jpg",
-      "alt": "Stolek z litinového stojanu šicího stroje s dřevěnou deskou",
       "title": "Stolky ze šicích strojů",
-      "text": "Litinové stojany dostaly nový lak a dřevěnou desku."
+      "text": "Litinové stojany dostaly nový lak a dřevěnou desku.",
+      "alt": "Stolek z litinového stojanu šicího stroje s dřevěnou deskou"
+    },
+    {
+      "image": "/img/uploads/test-cms-fotka.jpg",
+      "title": "TEST z Pages CMS"
     }
   ]
 }
