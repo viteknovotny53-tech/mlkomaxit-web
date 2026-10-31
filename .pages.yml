@@ -22,19 +22,6 @@ content:
         label: Text pod nadpisem
         type: text
         description: Stačí dvě krátké věty, ať se úvod vejde na obrazovku.
-      - name: before
-        label: Fotka PŘED
-        type: image
-        description: Stejný díl jako na fotce PO, ideálně ze stejného úhlu. Ideálně čtvercová.
-      - name: beforeAlt
-        label: Popis fotky PŘED (pro nevidomé a Google)
-        type: string
-      - name: after
-        label: Fotka PO
-        type: image
-      - name: afterAlt
-        label: Popis fotky PO (pro nevidomé a Google)
-        type: string
       - name: videoAlt
         label: Popis animace v úvodu (pro nevidomé a Google)
         type: string
