@@ -9,13 +9,18 @@
     },
     {
       "title": "Renovace a obnova starších dílů",
-      "text": "Rádi vracíme život starším věcem, i těm, které už vypadají na šrot.",
+      "text": "Rádi vracíme život starším věcem, i těm, které už vypadají na šrot. Zajistíme i opravu drobných prasklin a podobných vad.",
       "icon": "renovace"
     },
     {
       "title": "Příprava povrchu před lakováním",
       "text": "Tryskání, odlakování a broušení, aby nový lak dobře držel.",
       "icon": "tryskani"
+    },
+    {
+      "title": "Čištění vodním paprskem a laserem",
+      "text": "Kromě tryskání umíme díly očistit i vodním paprskem nebo laserem.",
+      "icon": "cisteni"
     },
     {
       "title": "Kusové zakázky i menší série",
@@ -29,7 +34,7 @@
     },
     {
       "title": "Svoz a dovoz zakázek",
-      "text": "Nemáte jak díl přivézt? Vyzvedneme ho u vás a hotový dovezeme zpět.",
+      "text": "Po domluvě díl vyzvedneme a hotový dovezeme zpět. Jezdíme do Hradce Králové, Pardubic, Chrudimi i Rychnova nad Kněžnou, po domluvě kamkoli.",
       "icon": "svoz"
     }
   ],

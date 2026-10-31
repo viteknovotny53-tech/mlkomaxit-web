@@ -35,6 +35,9 @@ content:
       - name: afterAlt
         label: Popis fotky PO (pro nevidomé a Google)
         type: string
+      - name: videoAlt
+        label: Popis animace v úvodu (pro nevidomé a Google)
+        type: string
 
   - name: sluzby
     label: Služby
@@ -74,6 +77,8 @@ content:
                   label: Baňka (chemie)
                 - name: tryskani
                   label: Proud vzduchu (tryskání)
+                - name: cisteni
+                  label: Kapka (čištění vodou a laserem)
                 - name: renovace
                   label: Kolo
                 - name: svarovani
@@ -195,7 +200,7 @@ content:
       - name: hours
         label: Provozní doba
         type: string
-        description: Když necháte prázdné, řádek se nezobrazí.
+        description: Třeba „Po–Pá 7–16“ nebo „Vždy po domluvě“. Když necháte prázdné, řádek se nezobrazí.
       - name: ico
         label: IČO
         type: string
@@ -214,3 +219,7 @@ content:
       - name: description
         label: Popis stránky pro Google
         type: text
+      - name: url
+        label: Adresa webu
+        type: string
+        description: Neměňte, dokud web nepoběží na vlastní doméně (pak sem patří třeba https://www.mlkomaxit.cz).
