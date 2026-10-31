@@ -204,6 +204,18 @@ content:
       - name: ico
         label: IČO
         type: string
+      - name: legalName
+        label: Podnikatel (jméno podle živnostenského rejstříku)
+        type: string
+        description: Zobrazí se v patičce a v zásadách ochrany osobních údajů jako provozovatel webu.
+      - name: seat
+        label: Sídlo podle rejstříku
+        type: string
+        description: Celá adresa na jednom řádku, třeba „Malá Čermná 26, 517 25 Čermná nad Orlicí“.
+      - name: registry
+        label: Zápis v rejstříku
+        type: string
+        description: Píše se do patičky za sídlo, třeba „zapsaný v živnostenském rejstříku“.
       - name: contactText
         label: Text v sekci Kontakt
         type: text

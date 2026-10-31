@@ -3,6 +3,7 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
+  eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/img/*.{jpg,png,svg}");
   // snímky videa s postupem v úvodu, už zmenšené
   eleventyConfig.addPassthroughCopy("src/img/proces");

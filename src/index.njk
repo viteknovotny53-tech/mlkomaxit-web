@@ -21,9 +21,8 @@ permalink: /index.html
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/img/favicon.png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,100..900;1,50..125,100..900&display=swap" rel="stylesheet">
+  <link rel="preload" href="/fonts/saira-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/style.css">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
@@ -31,6 +30,7 @@ permalink: /index.html
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": {{ site.name | dump | safe }},
+    "legalName": {{ site.legalName | dump | safe }},
     "description": {{ site.description | dump | safe }},
     "telephone": {{ tel | dump | safe }},
     "email": {{ site.email | dump | safe }},
@@ -90,6 +90,8 @@ permalink: /index.html
         <img class="story-poster" src="/img/proces/f000.webp" alt="{{ uvod.videoAlt }}" width="680" height="680" fetchpriority="high" eleventy:ignore>
         <canvas class="story-spill" aria-hidden="true"></canvas>
         <canvas class="story-canvas" aria-hidden="true"></canvas>
+        {#- označení podle AI Actu (čl. 50): realistická animace je vygenerovaná #}
+        <p class="story-ai">Ilustrační animace vytvořená pomocí AI</p>
       </div>
       <div class="story-text">
         <h2 id="postup-nadpis" class="story-title">Jak to probíhá</h2>
@@ -207,13 +209,14 @@ permalink: /index.html
           <a class="map-load" href="https://www.google.com/maps/search/?api=1&amp;query={{ place }}" target="_blank" rel="noopener"
              data-embed="https://maps.google.com/maps?q={{ place }}&amp;z=13&amp;output=embed" data-title="Mapa: {{ site.street }}">
             {{ ui("pin") }}
-            <span><strong>Zobrazit mapu</strong>Načte se z Map Google</span>
+            <span><strong>Zobrazit mapu</strong>Načte se z Map Google, které mohou ukládat cookies</span>
           </a>
         </div>
       </div>
 
       <form class="form" data-reveal name="poptavka" method="POST" action="/dekujeme/" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
         <input type="hidden" name="form-name" value="poptavka">
+        <input type="hidden" name="subject" value="Nová poptávka z webu {{ site.name }}">
         <p class="hp" aria-hidden="true"><label>Nevyplňujte <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
         <h3>Poptávka</h3>
@@ -237,13 +240,16 @@ permalink: /index.html
           <label for="f-msg">Co potřebujete nalakovat</label>
           <textarea id="f-msg" name="zprava" rows="5" placeholder="Např. 4 alu kola 17″, černý lesk, potřebuji i svoz…"></textarea>
         </div>
-        <div class="field">
-          <label for="f-files">Fotky dílů</label>
-          <input id="f-files" name="fotky" type="file" accept="image/*" multiple aria-describedby="f-files-note">
-          <p id="f-files-note" class="field-note">Fotky z mobilu stačí, dohromady do 8 MB. Víc jich pošlete e-mailem.</p>
-        </div>
+        {#- Netlify Forms přijme jen jeden soubor na pole, proto tři samostatná pole #}
+        <fieldset class="field files">
+          <legend>Fotky dílů</legend>
+          <input name="fotka1" type="file" accept="image/*" aria-label="Fotka 1" aria-describedby="f-files-note">
+          <input name="fotka2" type="file" accept="image/*" aria-label="Fotka 2" aria-describedby="f-files-note">
+          <input name="fotka3" type="file" accept="image/*" aria-label="Fotka 3" aria-describedby="f-files-note">
+          <p id="f-files-note" class="field-note" aria-live="polite">Až 3 fotky z mobilu, dohromady do 8 MB. Víc jich pošlete e-mailem.</p>
+        </fieldset>
         <button class="btn btn-pink" type="submit"><span>Odeslat poptávku</span><span class="btn-ico">{{ ui("send") }}</span></button>
-        <p class="form-privacy">Údaje z formuláře použijeme jen k vyřízení vaší poptávky.</p>
+        <p class="form-privacy">Údaje z formuláře použijeme jen k vyřízení vaší poptávky. Víc v <a href="/ochrana-osobnich-udaju/">zásadách ochrany osobních údajů</a>.</p>
       </form>
     </div>
   </section>
@@ -289,13 +295,13 @@ permalink: /index.html
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© {% year %} {{ site.name }}{% if site.ico %}, IČO {{ site.ico }}{% endif %}</p>
-      <p><a href="#obsah">Zpět nahoru</a></p>
+      <p>© {% year %} {{ site.name }}. Provozovatel {{ site.legalName }}{% if site.ico %}, IČO {{ site.ico }}{% endif %}{% if site.seat %}, sídlo {{ site.seat }}{% endif %}{% if site.registry %}, {{ site.registry }}{% endif %}.</p>
+      <p class="footer-links"><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a> <a href="#obsah">Zpět nahoru</a></p>
     </div>
   </div>
 </footer>
 
-<a class="call-bar" href="tel:{{ tel }}">{{ ui("phone") }}<span>Zavolat {{ phoneShort }}</span></a>
+<aside aria-label="Rychlé volání"><a class="call-bar" href="tel:{{ tel }}">{{ ui("phone") }}<span>Zavolat {{ phoneShort }}</span></a></aside>
 
 <dialog class="lightbox" aria-label="Fotka realizace">
   <img eleventy:ignore src="data:," alt="">

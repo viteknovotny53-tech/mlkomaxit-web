@@ -1,0 +1,68 @@
+---
+permalink: /ochrana-osobnich-udaju/index.html
+---
+{%- from "icons.njk" import ui -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ochrana osobních údajů | {{ site.name }}</title>
+  <meta name="description" content="Jak {{ site.name }} zachází s údaji z poptávkového formuláře a co se děje při návštěvě webu.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Informace o zpracování osobních údajů (čl. 13 GDPR). Údaje o podnikateli se berou ze site.json. -->
+<header class="site-header is-scrolled">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="{{ site.name }}, úvod">
+      <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="960" height="616">
+    </a>
+    <a class="btn btn-pink btn-sm" href="tel:{{ tel }}"><span>{{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+  </div>
+</header>
+
+<main class="legal">
+  <div class="wrap">
+    <h1 class="display steel">Ochrana osobních údajů</h1>
+    <p class="legal-date">Platné od 31. 10. 2026</p>
+
+    <h2>Kdo vaše údaje zpracovává</h2>
+    <p>Správcem je {{ site.legalName }}, IČO {{ site.ico }}, se sídlem {{ site.seat }}, který provozuje práškovou lakovnu {{ site.name }}. Ozvat se můžete na <a href="mailto:{{ site.email }}">{{ site.email }}</a> nebo na telefonu <a href="tel:{{ tel }}">{{ site.phone }}</a>.</p>
+
+    <h2>Jaké údaje zpracováváme a proč</h2>
+    <p>Když pošlete poptávku přes formulář, dostaneme vaše jméno, telefon, e-mail (pokud ho vyplníte), text zprávy a přiložené fotky. Použijeme je jen k tomu, abychom vám odpověděli, připravili cenu a termín a domluvili zakázku. Právním základem je jednání o smlouvě na vaši žádost (čl. 6 odst. 1 písm. b) GDPR). Stejně zacházíme s údaji, které nám sdělíte po telefonu, e-mailem nebo přes Messenger.</p>
+    <p>Když zakázka vznikne, údaje potřebné k vyúčtování uchováváme po dobu, kterou nám ukládají účetní a daňové předpisy (čl. 6 odst. 1 písm. c) GDPR).</p>
+
+    <h2>Jak dlouho údaje uchováváme</h2>
+    <p>Poptávky, ze kterých zakázka nevznikne, smažeme nejpozději do jednoho roku od odeslání.</p>
+
+    <h2>Kdo k údajům má přístup</h2>
+    <ul>
+      <li><strong>Netlify, Inc.</strong> (USA) provozuje hosting webu a ukládá odeslané poptávky. Při tom je kontroluje na spam službou Akismet. Údaje se tak dostávají do USA. Netlify je k tomu certifikovaný v rámci EU-US Data Privacy Framework.</li>
+      <li><strong>Seznam.cz, a.s.</strong> provozuje naši e-mailovou schránku, kam nám poptávky chodí.</li>
+    </ul>
+    <p>Nikomu dalšímu údaje neprodáváme ani nepředáváme, pokud nám to neukládá zákon.</p>
+
+    <h2>Návštěva webu a cookies</h2>
+    <p>Web nepoužívá cookies ani analytické a reklamní nástroje. Písma jsou uložená přímo na webu. Hosting Netlify při návštěvě zaznamenává technické údaje, jako je IP adresa, typ prohlížeče a čas, aby web fungoval a byl chráněný proti útokům (oprávněný zájem, čl. 6 odst. 1 písm. f) GDPR).</p>
+    <p>Mapa Google v sekci Kontakt se načte až po kliknutí na „Zobrazit mapu“. Tím se propojíte se službou Google, která může ukládat cookies a zpracovávat vaši IP adresu podle <a href="https://policies.google.com/privacy?hl=cs" target="_blank" rel="noopener">svých zásad</a>. Odkazy na Facebook a Instagram vedou na weby společnosti Meta. Dokud na ně nekliknete, nic se z nich nenačítá.</p>
+
+    <h2>Vaše práva</h2>
+    <p>Máte právo na přístup ke svým údajům, jejich opravu nebo výmaz, omezení zpracování a přenositelnost. Proti zpracování na základě oprávněného zájmu můžete vznést námitku. Stačí nám napsat nebo zavolat. Pokud si myslíte, že s údaji zacházíme v rozporu se zákonem, můžete podat stížnost u <a href="https://uoou.gov.cz" target="_blank" rel="noopener">Úřadu pro ochranu osobních údajů</a>.</p>
+    <p>Vyplnění formuláře je dobrovolné, bez kontaktu vám ale nemůžeme odpovědět. Automatizované rozhodování ani profilování neprovádíme.</p>
+
+    <div class="actions">
+      <a class="btn btn-steel" href="/"><span>Zpět na web</span></a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

@@ -410,9 +410,37 @@ lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) lightbox.close();
 });
 
-// Poptávka: po odeslání se tlačítko zamkne, aby se neodeslala dvakrát
+// Fotky v poptávce: Netlify Forms bere jeden soubor na pole, takže pole jsou tři.
+// Další se ukáže, až je předchozí vyplněné; víc než 8 MB Netlify odmítne, proto to hlídáme předem.
 const form = document.querySelector('.form');
-form.addEventListener('submit', () => {
+const photoInputs = [...form.querySelectorAll('input[type="file"]')];
+const photoNote = form.querySelector('#f-files-note');
+const photoNoteText = photoNote.textContent;
+const MAX_UPLOAD = 7.9e6;
+
+const syncPhotos = () => {
+  photoInputs.forEach((input, i) => {
+    if (i > 0) input.hidden = !photoInputs[i - 1].files.length && !input.files.length;
+  });
+};
+photoInputs.forEach((input) => input.addEventListener('change', () => {
+  syncPhotos();
+  photoNote.textContent = photoNoteText;
+  photoNote.classList.remove('is-error');
+}));
+syncPhotos();
+
+// Poptávka: po odeslání se tlačítko zamkne, aby se neodeslala dvakrát
+form.addEventListener('submit', (e) => {
+  const total = photoInputs.reduce((sum, input) => sum + (input.files[0]?.size || 0), 0);
+  if (total > MAX_UPLOAD) {
+    e.preventDefault();
+    const mb = (total / 1e6).toFixed(1).replace('.', ',');
+    photoNote.textContent = `Fotky mají dohromady ${mb} MB, vejde se 8 MB. Přiložte menší, nebo je pošlete e-mailem.`;
+    photoNote.classList.add('is-error');
+    photoInputs[0].focus();
+    return;
+  }
   const submit = form.querySelector('[type="submit"]');
   submit.disabled = true;
   submit.querySelector('span').textContent = 'Odesílám…';
