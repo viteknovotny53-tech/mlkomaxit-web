@@ -430,18 +430,52 @@ photoInputs.forEach((input) => input.addEventListener('change', () => {
 }));
 syncPhotos();
 
-// Poptávka: po odeslání se tlačítko zamkne, aby se neodeslala dvakrát
-form.addEventListener('submit', (e) => {
+// Poptávka se odešle na pozadí (Netlify Forms přijme FormData i s fotkami, bez hlavičky Content-Type)
+// a místo formuláře se ukáže poděkování. Bez JavaScriptu formulář přesměruje na /dekujeme/.
+const formDone = document.querySelector('.form-done');
+const formError = form.querySelector('.form-error');
+const submit = form.querySelector('[type="submit"]');
+const submitLabel = submit.querySelector('span');
+const submitText = submitLabel.textContent;
+
+const resetSubmit = () => {
+  submit.disabled = false;
+  submitLabel.textContent = submitText;
+};
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
   const total = photoInputs.reduce((sum, input) => sum + (input.files[0]?.size || 0), 0);
   if (total > MAX_UPLOAD) {
-    e.preventDefault();
     const mb = (total / 1e6).toFixed(1).replace('.', ',');
     photoNote.textContent = `Fotky mají dohromady ${mb} MB, vejde se 8 MB. Přiložte menší, nebo je pošlete e-mailem.`;
     photoNote.classList.add('is-error');
     photoInputs[0].focus();
     return;
   }
-  const submit = form.querySelector('[type="submit"]');
+  // tlačítko se zamkne, aby se poptávka neodeslala dvakrát
   submit.disabled = true;
-  submit.querySelector('span').textContent = 'Odesílám…';
+  submitLabel.textContent = 'Odesílám…';
+  formError.hidden = true;
+  try {
+    const res = await fetch('/', { method: 'POST', body: new FormData(form) });
+    if (!res.ok) throw new Error(res.status);
+    form.hidden = true;
+    formDone.hidden = false;
+    formDone.focus();
+  } catch {
+    formError.hidden = false;
+    resetSubmit();
+  }
+});
+
+formDone.querySelector('.form-again').addEventListener('click', () => {
+  form.reset();
+  syncPhotos();
+  photoNote.textContent = photoNoteText;
+  photoNote.classList.remove('is-error');
+  resetSubmit();
+  formDone.hidden = true;
+  form.hidden = false;
+  form.querySelector('#f-name').focus();
 });

@@ -723,6 +723,25 @@ html:not(.js) .story-step { margin-top: 32px; }
 .files { min-width: 0; margin: 0 0 18px; padding: 0; border: 0; }
 .files legend { margin-bottom: 6px; padding: 0; font-weight: 600; font-size: .9375rem; }
 .field-note.is-error { color: var(--pink); }
+.form-error { margin-top: 16px; color: var(--pink); }
+
+/* Poděkování po odeslání: fajfka se dokreslí jako odpověď na odeslání */
+.form-done { align-self: start; outline: none; }
+.form-done-ico {
+  width: 56px;
+  height: 56px;
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.form-done-ico path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw-check .6s var(--ease-out) forwards; }
+.form-done-ico path + path { animation-delay: .35s; }
+@keyframes draw-check { to { stroke-dashoffset: 0; } }
+.form-done h3 { margin-top: 20px; font-size: clamp(2.25rem, 4vw, 3rem); }
+.form-done p { max-width: 40ch; margin-top: 14px; color: var(--muted); }
+.form-done .actions { margin-top: 28px; }
 
 /* Obsah při scrollu jemně vyjede zespodu (main.js přidá is-in), úvodní text při načtení */
 
@@ -977,6 +996,7 @@ html:not(.js) .story-step { margin-top: 32px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .lightbox[open] { animation: none; }
+  .form-done-ico path { animation: none; stroke-dashoffset: 0; }
   .js [data-reveal],
   .js .hero-copy > *,
   .js .story-step > *,

@@ -273,8 +273,20 @@ permalink: /index.html
           <p id="f-files-note" class="field-note" aria-live="polite">Až 3 fotky z mobilu, dohromady do 8 MB. Víc jich pošlete e-mailem.</p>
         </fieldset>
         <button class="btn btn-pink" type="submit"><span>Odeslat poptávku</span><span class="btn-ico">{{ ui("send") }}</span></button>
+        <p class="form-error" role="alert" hidden>Poptávku se nepodařilo odeslat. Zkontrolujte připojení a zkuste to znovu, nebo nám zavolejte na {{ site.phone }}.</p>
         <p class="form-privacy">Údaje z formuláře použijeme jen k vyřízení vaší poptávky. Víc v <a href="/ochrana-osobnich-udaju/">zásadách ochrany osobních údajů</a>.</p>
       </form>
+
+      {#- poděkování po odeslání na pozadí (main.js); bez JavaScriptu formulář přesměruje na /dekujeme/ #}
+      <div class="form form-done" tabindex="-1" aria-labelledby="form-done-title" hidden>
+        <svg class="form-done-ico" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path pathLength="1" d="M9 12l2 2l4 -4"/></svg>
+        <h3 id="form-done-title" class="display steel">Poptávka dorazila</h3>
+        <p>Děkujeme. Projdeme fotky a&nbsp;ozveme se vám s&nbsp;cenou a&nbsp;termínem. Když spěcháte, zavolejte nám.</p>
+        <div class="actions">
+          <a class="btn btn-pink" href="tel:{{ tel }}"><span>Zavolat {{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+          <button class="btn btn-steel form-again" type="button"><span>Poslat další poptávku</span></button>
+        </div>
+      </div>
     </div>
   </section>
 
