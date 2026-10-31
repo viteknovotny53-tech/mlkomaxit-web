@@ -1,0 +1,42 @@
+---
+permalink: /404.html
+noindex: true
+---
+{%- from "icons.njk" import ui -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set pageTitle = "Stránka nenalezena | " + site.name %}{% set pageDesc = "Tahle stránka na webu " + site.name + " není." %}
+  {%- include "seo-head.njk" %}
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Netlify tuhle stránku vrací pro každou neexistující adresu (se stavem 404) -->
+<header class="site-header is-scrolled">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="{{ site.name }}, úvod">
+      <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="960" height="616">
+    </a>
+    <a class="btn btn-pink btn-sm" href="tel:{{ tel }}"><span>{{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+  </div>
+</header>
+
+<main class="thanks">
+  <div class="wrap">
+    <h1 class="display steel">Tady nic není</h1>
+    <p class="lead">Stránka, kterou hledáte, na webu není. Všechno o lakovně najdete na úvodní stránce.</p>
+    <div class="actions">
+      <a class="btn btn-pink" href="/"><span>Na úvodní stránku</span></a>
+      <a class="btn btn-steel" href="tel:{{ tel }}"><span>Zavolat {{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

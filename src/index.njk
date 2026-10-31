@@ -11,16 +11,8 @@ permalink: /index.html
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site.title }}</title>
-  <meta name="description" content="{{ site.description }}">
-  <meta property="og:title" content="{{ site.title }}">
-  <meta property="og:description" content="{{ uvod.headline }}. {{ site.description }}">
-  <meta property="og:image" content="{{ site.url }}/img/logo.jpg">
-  <meta property="og:url" content="{{ site.url }}/">
-  <meta property="og:locale" content="cs_CZ">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" href="/img/favicon.png">
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  {%- set pageTitle = site.title %}{% set pageDesc = site.description %}{% set pagePath = "/" %}
+  {%- include "seo-head.njk" %}
   <link rel="preload" href="/fonts/saira-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -28,19 +20,51 @@ permalink: /index.html
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": {{ site.name | dump | safe }},
-    "legalName": {{ site.legalName | dump | safe }},
-    "description": {{ site.description | dump | safe }},
-    "telephone": {{ tel | dump | safe }},
-    "email": {{ site.email | dump | safe }},
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": {{ site.street | dump | safe }},
-      "addressLocality": {{ site.city | dump | safe }},
-      "addressCountry": "CZ"
-    },
-    "sameAs": [{{ fbUrl | dump | safe }}, {{ igUrl | dump | safe }}]
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": {{ (site.url + "/#web") | dump | safe }},
+        "url": {{ (site.url + "/") | dump | safe }},
+        "name": {{ site.name | dump | safe }},
+        "inLanguage": "cs-CZ",
+        "publisher": { "@id": {{ (site.url + "/#firma") | dump | safe }} }
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": {{ (site.url + "/#firma") | dump | safe }},
+        "name": {{ site.name | dump | safe }},
+        "legalName": {{ site.legalName | dump | safe }},
+        "description": {{ site.description | dump | safe }},
+        "url": {{ (site.url + "/") | dump | safe }},
+        "telephone": {{ tel | dump | safe }},
+        "email": {{ site.email | dump | safe }},
+        "logo": {{ (site.url + "/img/logo.jpg") | dump | safe }},
+        "image": {{ (site.url + "/img/og-mlkomaxit.jpg") | dump | safe }},
+        {%- if site.ico %}
+        "identifier": { "@type": "PropertyValue", "propertyID": "IČO", "value": {{ site.ico | dump | safe }} },
+        {%- endif %}
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": {{ site.street | dump | safe }},
+          "postalCode": {{ site.city | psc | dump | safe }},
+          "addressLocality": {{ site.city | obec | dump | safe }},
+          "addressRegion": "Královéhradecký kraj",
+          "addressCountry": "CZ"
+        },
+        {%- if seo.lat and seo.lon %}
+        "geo": { "@type": "GeoCoordinates", "latitude": {{ seo.lat | float }}, "longitude": {{ seo.lon | float }} },
+        {%- endif %}
+        "areaServed": [{% for place in seo.areaServed %}{{ "" if loop.first else ", " }}{ "@type": "City", "name": {{ place | dump | safe }} }{% endfor %}],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Služby",
+          "itemListElement": [{% for item in sluzby.items %}{{ "" if loop.first else "," }}
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": {{ item.title | dump | safe }}, "description": {{ item.text | dump | safe }} } }{% endfor %}
+          ]
+        },
+        "sameAs": [{{ fbUrl | dump | safe }}, {{ igUrl | dump | safe }}]
+      }
+    ]
   }
   </script>
 </head>

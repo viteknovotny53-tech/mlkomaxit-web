@@ -215,10 +215,40 @@ content:
       - name: title
         label: Titulek stránky (Google, záložka prohlížeče)
         type: string
+        description: Nejdůležitější slova dopředu, ideálně do 60 znaků. Google ho ukazuje jako modrý nadpis výsledku.
       - name: description
         label: Popis stránky pro Google
         type: text
+        description: Dvě věty, ideálně do 160 znaků. Google ho často ukáže pod nadpisem výsledku.
       - name: url
         label: Adresa webu
         type: string
         description: Neměňte, dokud web nepoběží na vlastní doméně (pak sem patří třeba https://www.mlkomaxit.cz).
+
+  - name: seo
+    label: Vyhledávače (Google, Seznam)
+    type: file
+    path: src/_data/seo.json
+    format: json
+    fields:
+      - name: googleVerification
+        label: Ověřovací kód Google Search Console
+        type: string
+        description: Jen hodnota content z meta značky google-site-verification, bez uvozovek.
+      - name: seznamVerification
+        label: Ověřovací kód Seznam Webmaster
+        type: string
+        description: Jen hodnota content z meta značky seznam-wmt, bez uvozovek.
+      - name: areaServed
+        label: Kde působíme (obce pro Google)
+        type: string
+        list: true
+        description: Obce, odkud k vám zákazníci jezdí nebo kam svážíte. Na webu se nezobrazují, čte je jen Google.
+      - name: lat
+        label: Zeměpisná šířka provozovny
+        type: string
+        description: Neměňte, pokud se nestěhujete.
+      - name: lon
+        label: Zeměpisná délka provozovny
+        type: string
+        description: Neměňte, pokud se nestěhujete.

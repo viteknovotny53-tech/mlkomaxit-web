@@ -1,5 +1,6 @@
 ---
 permalink: /dekujeme/index.html
+noindex: true
 ---
 {%- from "icons.njk" import ui -%}
 {%- set tel = site.phone | tel -%}
@@ -9,10 +10,8 @@ permalink: /dekujeme/index.html
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poptávka odeslána | {{ site.name }}</title>
-  <meta name="robots" content="noindex">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" href="/img/favicon.png">
+  {%- set pageTitle = "Poptávka odeslána | " + site.name %}{% set pageDesc = "Poptávka dorazila, ozveme se s cenou a termínem." %}{% set noindex = true %}
+  {%- include "seo-head.njk" %}
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>

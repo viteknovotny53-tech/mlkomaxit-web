@@ -26,6 +26,12 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("tel", (phone = "") => String(phone).replace(/[^\d+]/g, ""));
   eleventyConfig.addFilter("phoneShort", (phone = "") => String(phone).replace(/^\+420\s*/, ""));
   eleventyConfig.addShortcode("year", () => String(new Date().getFullYear()));
+  // datum sestavení pro sitemap (lastmod)
+  eleventyConfig.addShortcode("today", () => new Date().toISOString().slice(0, 10));
+
+  // „517 25 Čermná nad Orlicí“ → PSČ a obec zvlášť pro strukturovaná data
+  eleventyConfig.addFilter("psc", (city = "") => (String(city).match(/^\s*(\d{3}\s?\d{2})/) || [, ""])[1]);
+  eleventyConfig.addFilter("obec", (city = "") => String(city).replace(/^\s*\d{3}\s?\d{2}\s*/, ""));
 
   return {
     dir: { input: "src", output: "_site" },

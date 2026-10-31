@@ -9,10 +9,8 @@ permalink: /ochrana-osobnich-udaju/index.html
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ochrana osobních údajů | {{ site.name }}</title>
-  <meta name="description" content="Jak {{ site.name }} zachází s údaji z poptávkového formuláře a co se děje při návštěvě webu.">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" href="/img/favicon.png">
+  {%- set pageTitle = "Ochrana osobních údajů | " + site.name %}{% set pageDesc = "Jak " + site.name + " zachází s údaji z poptávkového formuláře a co se děje při návštěvě webu." %}{% set pagePath = "/ochrana-osobnich-udaju/" %}
+  {%- include "seo-head.njk" %}
   <link rel="stylesheet" href="/css/fonts.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>

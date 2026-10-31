@@ -1,0 +1,31 @@
+{#- Společná hlavička pro vyhledávače a sdílení. Stránka před includem nastaví
+    pageTitle, pageDesc, pagePath (např. "/") a případně noindex = true. #}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDesc }}">
+  {%- if noindex %}
+  <meta name="robots" content="noindex">
+  {%- else %}
+  <link rel="canonical" href="{{ site.url }}{{ pagePath }}">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:title" content="{{ pageTitle }}">
+  <meta property="og:description" content="{{ pageDesc }}">
+  <meta property="og:url" content="{{ site.url }}{{ pagePath }}">
+  <meta property="og:image" content="{{ site.url }}/img/og-mlkomaxit.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo {{ site.name }} a hliníkové kolo po renovaci v černém lesklém laku">
+  <meta name="twitter:card" content="summary_large_image">
+  {%- endif %}
+  {#- ověřovací kódy z Google Search Console a Seznam Webmaster (CMS: Vyhledávače) #}
+  {%- if seo.googleVerification %}
+  <meta name="google-site-verification" content="{{ seo.googleVerification }}">
+  {%- endif %}
+  {%- if seo.seznamVerification %}
+  <meta name="seznam-wmt" content="{{ seo.seznamVerification }}">
+  {%- endif %}
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/img/favicon.png">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
