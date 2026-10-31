@@ -1,6 +1,9 @@
 [build]
   command = "npm run build"
   publish = "_site"
+  # Starý návrh (tým vitek project) už nestavíme, web běží jako projekt mlkomaxit.
+  # Exit 0 = Netlify build přeskočí a deploy nespotřebuje kredity.
+  ignore = "test \"$SITE_NAME\" = \"mlkomaxit-navrh\""
 
 [build.environment]
   NODE_VERSION = "22"
