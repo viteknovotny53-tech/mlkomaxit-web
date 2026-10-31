@@ -1,11 +1,8 @@
 {
   "name": "M&L komaxit",
-  "title": "Prášková lakovna a komaxitování kol | M&L komaxit Malá Čermná",
-  "url": "https://mlkomaxit.netlify.app",
-  "description": "Práškové lakování (komaxit) kovových dílů v Malé Čermné u Čermné nad Orlicí. Renovace kol, tryskání a odlakování. Svoz z Hradce, Pardubic i Rychnova.",
   "person": "Martin Petřík",
   "phone": "+420 799 040 499",
-  "email": "ml.komaxit@seznam.cz",
+  "email": "mlkomaxit@seznam.cz",
   "street": "Malá Čermná 26",
   "city": "517 25 Čermná nad Orlicí",
   "hours": "Vždy po domluvě",
@@ -15,5 +12,8 @@
   "registry": "zapsaný v živnostenském rejstříku",
   "contactText": "Nejrychleji se domluvíme po telefonu. Fotky dílů můžete poslat i přes formulář, e-mail nebo Messenger.",
   "facebook": "https://www.facebook.com/profile.php?id=61593312564331",
-  "instagram": "mlkomaxit"
+  "instagram": "mlkomaxit",
+  "title": "Prášková lakovna a komaxitování kol | M&L komaxit Malá Čermná",
+  "description": "Práškové lakování (komaxit) kovových dílů v Malé Čermné u Čermné nad Orlicí. Renovace kol, tryskání a odlakování. Svoz z Hradce, Pardubic i Rychnova.",
+  "url": "https://mlkomaxit.netlify.app"
 }
