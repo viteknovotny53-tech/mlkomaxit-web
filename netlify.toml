@@ -1,9 +1,9 @@
 [build]
   command = "npm run build"
   publish = "_site"
-  # Web běží jako projekt mlkomaxit-navrh (tým vitek project), kde jde zdarma vypnout odznak Netlify.
-  # Projekt ml-komaxit na účtu ML komaxit už nestavíme: exit 0 = build přeskočen, deploy nespotřebuje kredity.
-  ignore = "test \"$SITE_NAME\" = \"ml-komaxit\""
+  # Web běží jen jako projekt mlkomaxit (tým ATC jadran). Ostatní projekty napojené na tohle repo
+  # (mlkomaxit-navrh, ml-komaxit) build přeskočí: exit 0 = přeskočeno, deploy nespotřebuje kredity.
+  ignore = "test \"$SITE_NAME\" != \"mlkomaxit\""
 
 [build.environment]
   NODE_VERSION = "22"
