@@ -23,3 +23,10 @@
   for = "/img/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Stará adresa na Netlify trvale přesměruje na doménu, ať Google nevidí dvě kopie webu
+[[redirects]]
+  from = "https://mlkomaxit.netlify.app/*"
+  to = "https://ml-komaxit.cz/:splat"
+  status = 301
+  force = true

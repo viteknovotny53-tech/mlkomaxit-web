@@ -223,7 +223,7 @@ content:
       - name: url
         label: Adresa webu
         type: string
-        description: Neměňte, dokud web nepoběží na vlastní doméně (pak sem patří třeba https://www.mlkomaxit.cz).
+        description: Adresa webu i s https://, bez lomítka na konci. Neměňte bez domluvy se správcem webu.
 
   - name: seo
     label: Vyhledávače (Google, Seznam)
