@@ -1,0 +1,131 @@
+---
+pagination:
+  data: stranky.pages
+  size: 1
+  alias: s
+permalink: "/{{ s.slug }}/"
+eleventyExcludeFromCollections: true
+---
+{#- Stránky jednotlivých služeb. Obsah je v src/_data/stranky.json (CMS: Stránky služeb). #}
+{%- from "icons.njk" import ui -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set pageTitle = s.seoTitle or (s.title + " | " + site.name) %}{% set pageDesc = s.description %}{% set pagePath = "/" + s.slug + "/" %}
+  {%- include "seo-head.njk" %}
+  <link rel="stylesheet" href="/css/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "name": {{ s.title | dump | safe }},
+        "description": {{ s.description | dump | safe }},
+        "url": {{ (site.url + pagePath) | dump | safe }},
+        "provider": { "@id": {{ (site.url + "/#firma") | dump | safe }} },
+        "areaServed": [{% for place in seo.areaServed %}{{ "" if loop.first else ", " }}{ "@type": "City", "name": {{ place | dump | safe }} }{% endfor %}]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Úvod", "item": {{ (site.url + "/") | dump | safe }} },
+          { "@type": "ListItem", "position": 2, "name": {{ s.title | dump | safe }}, "item": {{ (site.url + pagePath) | dump | safe }} }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<a class="skip" href="#obsah">Přeskočit na obsah</a>
+
+<header class="site-header is-scrolled">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="{{ site.name }}, úvod">
+      <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="960" height="616">
+    </a>
+    <nav class="sub-nav" aria-label="Hlavní">
+      <a href="/#sluzby">Služby</a>
+      <a href="/#kontakt">Kontakt</a>
+      <a class="btn btn-pink btn-sm" href="tel:{{ tel }}"><span>{{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="obsah" class="sub">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Drobečková navigace"><a href="/">Úvod</a> <span aria-hidden="true">/</span> <a href="/#sluzby">Služby</a> <span aria-hidden="true">/</span> <span aria-current="page">{{ s.title }}</span></nav>
+    <h1 class="display steel">{{ s.title | cz }}</h1>
+    <p class="lead">{{ s.lead | cz }}</p>
+    <div class="actions">
+      <a class="btn btn-pink" href="tel:{{ tel }}"><span>Zavolat {{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+      <a class="btn btn-steel" href="/#kontakt"><span>Poslat fotky</span><span class="btn-ico">{{ ui("arrow") }}</span></a>
+    </div>
+
+    {%- for sec in s.sections %}
+    <section class="sub-section">
+      <h2>{{ sec.heading | cz }}</h2>
+      {%- for para in sec.text | odstavce %}
+      <p>{{ para | cz }}</p>
+      {%- endfor %}
+    </section>
+    {%- endfor %}
+
+    {%- if s.photos.length %}
+    <section class="sub-section">
+      <h2>Ukázky naší práce</h2>
+      <div class="sub-gallery">
+        {%- for ph in s.photos %}
+        <figure>
+          <img src="{{ ph.image }}" alt="{{ ph.alt or ph.title }}" sizes="(max-width: 560px) 92vw, (max-width: 1000px) 46vw, 360px">
+          {%- if ph.title %}<figcaption>{{ ph.title | cz }}</figcaption>{% endif %}
+        </figure>
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endif %}
+
+    {%- if s.faq.length %}
+    <section class="sub-section">
+      <h2>Na co se nás ptáte</h2>
+      <dl class="faq">
+        {%- for f in s.faq %}
+        <dt>{{ f.q | cz }}</dt>
+        <dd>{{ f.a | cz }}</dd>
+        {%- endfor %}
+      </dl>
+    </section>
+    {%- endif %}
+
+    <section class="sub-section sub-cta">
+      <h2 class="display">{{ vyzva.heading | cz }}</h2>
+      <p>Pošlete fotky přes <a href="/#kontakt">formulář</a> nebo zavolejte. Cenu i termín řekneme předem.</p>
+      <div class="actions">
+        <a class="btn btn-pink" href="tel:{{ tel }}"><span>Zavolat {{ phoneShort }}</span><span class="btn-ico">{{ ui("phone") }}</span></a>
+        <a class="btn btn-steel" href="/#kontakt"><span>Poslat poptávku</span><span class="btn-ico">{{ ui("arrow") }}</span></a>
+      </div>
+    </section>
+
+    <nav class="sub-section sub-more" aria-label="Další služby">
+      <h2>Další služby</h2>
+      <ul>
+        {%- for p in stranky.pages %}{% if p.slug != s.slug %}
+        <li><a href="/{{ p.slug }}/">{{ p.title }}</a></li>
+        {%- endif %}{% endfor %}
+        <li><a href="/#sluzby">Všechny služby na úvodní stránce</a></li>
+      </ul>
+    </nav>
+  </div>
+</main>
+
+{% include "footer.njk" %}
+
+</body>
+</html>

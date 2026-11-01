@@ -1,0 +1,142 @@
+{
+  "pages": [
+    {
+      "slug": "lakovani-kol",
+      "title": "Lakování a renovace kol",
+      "seoTitle": "Lakování a renovace kol práškovou barvou | M&L komaxit",
+      "description": "Renovace a práškové lakování alu i plechových kol v Malé Čermné. Odlakování, tryskání, lakování v odstínu podle vás. Svoz kol po domluvě.",
+      "lead": "Alu i plechová kola vrátíme do kondice. Starý lak a rez odstraníme až na kov a kola nalakujeme práškovou barvou v odstínu, který si vyberete.",
+      "sections": [
+        {
+          "heading": "Jak renovace kol probíhá",
+          "text": "Pošlete fotky kol a ozveme se s cenou a termínem. Kola přivezete, nebo si pro ně po domluvě přijedeme.\n\nStarý lak a rez dostaneme dolů odlakováním a tryskáním. Pak kola nastříkáme práškovou barvou a vypálíme v peci, kde se prášek slije v tvrdý a odolný povrch."
+        },
+        {
+          "heading": "Barvy a efekty",
+          "text": "Klasická černá nebo stříbrná, ale i výraznější odstíny. Nalakovali jsme třeba kola v metalickém chameleonu s leštěným límcem nebo plechový disk v mramorovém efektu. Ukázky najdete níže."
+        }
+      ],
+      "photos": [
+        {
+          "image": "/img/uploads/kolo-po.jpg",
+          "alt": "Hliníkové kolo z úvodu po renovaci v černém lesklém laku, opřené o paletu",
+          "title": "Kolo z úvodu"
+        },
+        {
+          "image": "/img/uploads/kola-cerna-sada.jpg",
+          "alt": "Sada čtyř kol v černém lesklém laku",
+          "title": "Ze šrotu zpátky na silnici"
+        },
+        {
+          "image": "/img/uploads/kola-lestene.jpg",
+          "alt": "Stříbrné pětipaprskové kolo s leštěným límcem",
+          "title": "Původní vzhled"
+        },
+        {
+          "image": "/img/uploads/kola-chameleon.jpg",
+          "alt": "Sada kol Škoda ve fialovém chameleonu s leštěným límcem",
+          "title": "Fialový chameleon"
+        },
+        {
+          "image": "/img/uploads/kolo-mramor.jpg",
+          "alt": "Plechový disk v mramorovém efektu fialové, modré a růžové",
+          "title": "Když klasika nestačí"
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kolik to bude stát?",
+          "a": "Záleží na velikosti a stavu dílu. Pošlete fotky přes formulář nebo zavolejte a cenu i termín vám řekneme předem."
+        },
+        {
+          "q": "Lakujete i kola s leštěným límcem?",
+          "a": "Ano, renovace disků s leštěným límcem děláme. Jednu takovou sadu najdete ve fotkách výše."
+        },
+        {
+          "q": "Můžete pro díly přijet?",
+          "a": "Po domluvě díly vyzvedneme a hotové dovezeme zpátky. Jezdíme do Hradce Králové, Pardubic, Chrudimi i Rychnova nad Kněžnou a po domluvě kamkoli."
+        }
+      ]
+    },
+    {
+      "slug": "tryskani-odlakovani",
+      "title": "Tryskání, odlakování a broušení",
+      "seoTitle": "Tryskání, odlakování a broušení kovových dílů | M&L komaxit",
+      "description": "Příprava kovových dílů před práškovým lakováním: tryskání, odlakování a broušení až na čistý kov. Malá Čermná u Čermné nad Orlicí.",
+      "lead": "Než díl nalakujeme, musí být čistý až na kov. Starý nátěr, rez a nečistoty odstraníme tryskáním, odlakováním a broušením.",
+      "sections": [
+        {
+          "heading": "Proč na přípravě záleží",
+          "text": "Prášková barva dobře drží jen na čistém povrchu. Čím lépe je díl připravený, tím déle nový lak vydrží."
+        },
+        {
+          "heading": "Co připravíme",
+          "text": "Kola, díly aut a motorek, konstrukce, zábradlí, brány i kovový nábytek. Zvládneme díly do délky 2,5 m, šířky 1 m a hmotnosti 100 kg."
+        },
+        {
+          "heading": "Drobné opravy",
+          "text": "Má díl drobné praskliny nebo podobné vady? Jejich opravu zajistíme ještě před lakováním. Samotné svařování dílů neděláme."
+        }
+      ],
+      "photos": [
+        {
+          "image": "/img/uploads/dily-zelene.jpg",
+          "alt": "Autodíly nalakované zelenou barvou",
+          "title": "Autodíly v zelené"
+        },
+        {
+          "image": "/img/uploads/mazda-viko-2.jpg",
+          "alt": "Víko ventilů Mazda DOHC 16V ve žlutém lesklém laku",
+          "title": "Mazda DOHC 16V"
+        },
+        {
+          "image": "/img/uploads/stolek-cerny.jpg",
+          "alt": "Stolek z litinového stojanu šicího stroje s dřevěnou deskou",
+          "title": "Stolky ze šicích strojů"
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kolik to bude stát?",
+          "a": "Záleží na velikosti a stavu dílu. Pošlete fotky přes formulář nebo zavolejte a cenu i termín vám řekneme předem."
+        },
+        {
+          "q": "Jak velký díl zvládnete?",
+          "a": "Díly do délky 2,5 m, šířky 1 m a hmotnosti 100 kg."
+        },
+        {
+          "q": "Můžete pro díly přijet?",
+          "a": "Po domluvě díly vyzvedneme a hotové dovezeme zpátky. Jezdíme do Hradce Králové, Pardubic, Chrudimi i Rychnova nad Kněžnou a po domluvě kamkoli."
+        }
+      ]
+    },
+    {
+      "slug": "cisteni-laserem-vodnim-paprskem",
+      "title": "Čištění laserem a vodním paprskem",
+      "seoTitle": "Čištění laserem a vodním paprskem | M&L komaxit Malá Čermná",
+      "description": "Čištění kovových dílů laserem a vodním paprskem v Malé Čermné. Odstranění nečistot, rzi a starých nátěrů, po domluvě i nový práškový lak.",
+      "lead": "Kromě tryskání umíme díly očistit i laserem nebo vodním paprskem.",
+      "sections": [
+        {
+          "heading": "Kdy se hodí",
+          "text": "Je to další způsob, jak z dílu dostat nečistoty, rez nebo starý nátěr. Jakou metodu zvolit, doporučíme podle materiálu a stavu dílu, když nám pošlete fotky."
+        },
+        {
+          "heading": "A pak klidně nový lak",
+          "text": "Očištěný díl můžeme rovnou nalakovat práškovou barvou v odstínu podle vás."
+        }
+      ],
+      "photos": [],
+      "faq": [
+        {
+          "q": "Kolik to bude stát?",
+          "a": "Záleží na velikosti a stavu dílu. Pošlete fotky přes formulář nebo zavolejte a cenu i termín vám řekneme předem."
+        },
+        {
+          "q": "Můžete pro díly přijet?",
+          "a": "Po domluvě díly vyzvedneme a hotové dovezeme zpátky. Jezdíme do Hradce Králové, Pardubic, Chrudimi i Rychnova nad Kněžnou a po domluvě kamkoli."
+        }
+      ]
+    }
+  ]
+}

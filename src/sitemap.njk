@@ -12,4 +12,10 @@ eleventyExcludeFromCollections: true
   </url>
   {%- endif %}
 {%- endfor %}
+{%- for s in stranky.pages %}
+  <url>
+    <loc>{{ site.url }}/{{ s.slug }}/</loc>
+    <lastmod>{% today %}</lastmod>
+  </url>
+{%- endfor %}
 </urlset>

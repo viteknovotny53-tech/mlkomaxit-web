@@ -1,0 +1,55 @@
+{#- Patička a lišta Zavolat, společné pro úvod i stránky služeb #}
+{%- from "icons.njk" import ui -%}
+{%- set tel = site.phone | tel -%}
+{%- set phoneShort = site.phone | phoneShort -%}
+{%- set fbUrl = site.facebook -%}
+{%- set igUrl = "https://www.instagram.com/" + site.instagram + "/" -%}
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img eleventy:ignore src="/img/logo.jpg" alt="{{ site.name }}" width="160" height="103" loading="lazy">
+        <p>Prášková lakovna v Malé Čermné. Kola, díly aut a motorek, konstrukce i kusové výrobky.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Kontakt</h2>
+        <ul>
+          {%- if site.person %}
+          <li>{{ site.person }}</li>
+          {%- endif %}
+          <li><a class="footer-phone" href="tel:{{ tel }}">{{ site.phone }}</a></li>
+          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          {%- if site.hours %}
+          <li>Provozní doba: {{ site.hours }}</li>
+          {%- endif %}
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Kde nás najdete</h2>
+        <ul>
+          <li>{{ site.street }}<br>{{ site.city }}</li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query={{ (site.street + ', ' + site.city) | urlencode }}" target="_blank" rel="noopener">Navigovat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Na webu</h2>
+        <ul>
+          <li><a href="/#postup">Jak to probíhá</a></li>
+          <li><a href="/#sluzby">Služby</a></li>
+          <li><a href="/#realizace">Realizace</a></li>
+          {%- for p in stranky.pages %}
+          <li><a href="/{{ p.slug }}/">{{ p.title }}</a></li>
+          {%- endfor %}
+          <li><a href="{{ fbUrl }}" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="{{ igUrl }}" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {% year %} {{ site.name }}. Provozovatel {{ site.legalName }}{% if site.ico %}, IČO {{ site.ico }}{% endif %}{% if site.seat %}, sídlo {{ site.seat }}{% endif %}{% if site.registry %}, {{ site.registry }}{% endif %}.</p>
+      <p class="footer-links"><a href="/ochrana-osobnich-udaju/">Ochrana osobních údajů</a> <a href="#obsah">Zpět nahoru</a></p>
+    </div>
+  </div>
+</footer>
+
+<aside aria-label="Rychlé volání"><a class="call-bar" href="tel:{{ tel }}">{{ ui("phone") }}<span>Zavolat {{ phoneShort }}</span></a></aside>

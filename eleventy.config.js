@@ -26,6 +26,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("tel", (phone = "") => String(phone).replace(/[^\d+]/g, ""));
   eleventyConfig.addFilter("phoneShort", (phone = "") => String(phone).replace(/^\+420\s*/, ""));
   eleventyConfig.addShortcode("year", () => String(new Date().getFullYear()));
+  // text z CMS → odstavce podle prázdných řádků
+  eleventyConfig.addFilter("odstavce", (text = "") => String(text).split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean));
+
   // datum sestavení pro sitemap (lastmod)
   eleventyConfig.addShortcode("today", () => new Date().toISOString().slice(0, 10));
 

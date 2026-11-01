@@ -53,6 +53,10 @@ content:
           - name: text
             label: Krátký popis
             type: text
+          - name: link
+            label: Odkaz na stránku služby (nepovinné)
+            type: string
+            description: Třeba /lakovani-kol/. Když je vyplněný, název služby na úvodu je odkaz.
           - name: icon
             label: Ikona
             type: select
@@ -252,3 +256,81 @@ content:
         label: Zeměpisná délka provozovny
         type: string
         description: Neměňte, pokud se nestěhujete.
+
+  - name: stranky
+    label: Stránky služeb
+    type: file
+    path: src/_data/stranky.json
+    format: json
+    fields:
+      - name: pages
+        label: Stránky
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: title
+            label: Nadpis stránky
+            type: string
+            required: true
+          - name: slug
+            label: Adresa stránky
+            type: string
+            required: true
+            description: Jen malá písmena bez diakritiky a pomlčky, třeba lakovani-kol. Po zveřejnění ji neměňte, rozbily by se odkazy z Googlu.
+          - name: seoTitle
+            label: Titulek pro Google
+            type: string
+            description: Ideálně do 60 znaků, nejdůležitější slova dopředu.
+          - name: description
+            label: Popis pro Google
+            type: text
+            description: Dvě věty, ideálně do 160 znaků.
+          - name: lead
+            label: Úvodní text pod nadpisem
+            type: text
+          - name: sections
+            label: Části textu
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{heading}"
+            fields:
+              - name: heading
+                label: Mezititulek
+                type: string
+              - name: text
+                label: Text
+                type: text
+                description: Nový odstavec oddělte prázdným řádkem.
+          - name: photos
+            label: Fotky
+            type: object
+            list: true
+            fields:
+              - name: image
+                label: Fotka
+                type: image
+              - name: title
+                label: Popisek pod fotkou
+                type: string
+              - name: alt
+                label: Co je na fotce (pro nevidomé a Google)
+                type: string
+          - name: faq
+            label: Otázky a odpovědi
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{q}"
+            fields:
+              - name: q
+                label: Otázka
+                type: string
+              - name: a
+                label: Odpověď
+                type: text

@@ -5,37 +5,44 @@
     {
       "title": "Práškové lakování kovových výrobků",
       "text": "Od drobných dílů až po větší konstrukce. Staré věci i nové výrobky.",
-      "icon": "lakovani"
+      "icon": "lakovani",
+      "link": ""
     },
     {
       "title": "Renovace a obnova starších dílů",
       "text": "Rádi vracíme život starším věcem, i těm, které už vypadají na šrot. Zajistíme i opravu drobných prasklin a podobných vad.",
-      "icon": "renovace"
+      "icon": "renovace",
+      "link": "/lakovani-kol/"
     },
     {
       "title": "Příprava povrchu před lakováním",
       "text": "Tryskání, odlakování a broušení, aby nový lak dobře držel.",
-      "icon": "tryskani"
+      "icon": "tryskani",
+      "link": "/tryskani-odlakovani/"
     },
     {
       "title": "Čištění vodním paprskem a laserem",
       "text": "Kromě tryskání umíme díly očistit i vodním paprskem nebo laserem.",
-      "icon": "cisteni"
+      "icon": "cisteni",
+      "link": "/cisteni-laserem-vodnim-paprskem/"
     },
     {
       "title": "Kusové zakázky i menší série",
       "text": "Jeden kus, nebo pravidelná spolupráce. Obojí rádi uděláme.",
-      "icon": "serie"
+      "icon": "serie",
+      "link": ""
     },
     {
       "title": "Osobní přístup",
       "text": "Domluvíme se podle vašich potřeb a s každou zakázkou si dáme práci.",
-      "icon": "pristup"
+      "icon": "pristup",
+      "link": ""
     },
     {
       "title": "Svoz a dovoz zakázek",
       "text": "Po domluvě díl vyzvedneme a hotový dovezeme zpět. Jezdíme do Hradce Králové, Pardubic, Chrudimi i Rychnova nad Kněžnou, po domluvě kamkoli.",
-      "icon": "svoz"
+      "icon": "svoz",
+      "link": ""
     }
   ],
   "fitsHeading": "Co u nás nalakujete",
